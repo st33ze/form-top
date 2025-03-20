@@ -1,3 +1,3 @@
-import testElement from "./form/form.js"
+import form from "./form/form.js"
 
-document.body.appendChild(testElement);
+document.body.appendChild(form);
