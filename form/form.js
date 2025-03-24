@@ -18,10 +18,11 @@ class Form {
   static #createHeader() {
     const container = createNode('header');
 
-    const header = createNode('h2');
-    header.textContent = 'The Odin Project';
+    const header = createNode('h1');
+    header.textContent = 'Join the Green Energy Movement';
+    
     const p = createNode('p');
-    p.textContent = 'A form validation assignment';
+    p.textContent = 'Switch to renewable energy and build a sustainable future. Fill out the form to get started!';
 
     container.append(header, p);
     return container;
