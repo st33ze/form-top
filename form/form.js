@@ -22,9 +22,9 @@ class Form {
     header.textContent = 'Join the Green Energy Movement';
     
     const p = createNode('p');
-    p.textContent = 'Switch to renewable energy and build a sustainable future. Fill out the form to get started!';
+    p.innerHTML = '<span>Fill out the form to get started!</span><span>Switch to renewable energy and build a sustainable future.</span>';
 
-    container.append(header, p);
+    container.append(p, header);
     return container;
   }
 }
