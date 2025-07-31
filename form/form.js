@@ -10,6 +10,7 @@ class Form {
 
     form.append(
       Form.#createHeader(),
+      Form.#createAuthSection(),
     );
 
     return form;
@@ -21,11 +22,31 @@ class Form {
     const header = createNode('h1');
     header.textContent = 'Join the Green Energy Movement';
     
-    const p = createNode('p');
-    p.innerHTML = '<span>Fill out the form to get started!</span><span>Switch to renewable energy and build a sustainable future.</span>';
+    const subheader = createNode('h2');
+    subheader.textContent = 'Fill out the form to get started!';
 
-    container.append(p, header);
+    container.append(header, subheader);
     return container;
+  }
+
+  static #createAuthSection() {
+    const login = createNode('div', { class: 'auth-section' });
+    login.innerHTML = `
+      <p>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Email" />
+      </p>
+      <p>
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password" />
+      </p>
+      <p>
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" />
+      </p>
+    `;
+
+    return login;
   }
 }
 
