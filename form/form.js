@@ -11,6 +11,7 @@ class Form {
     form.append(
       Form.#createHeader(),
       Form.#createAuthSection(),
+      Form.createLocalizationSection(),
     );
 
     return form;
@@ -47,6 +48,37 @@ class Form {
     `;
 
     return login;
+  }
+
+  static createLocalizationSection() {
+    const localization = document.createElement('div');
+    localization.classList.add('localization-section');
+
+    localization.innerHTML = `
+      <p>
+        <label for="country">Country</label>
+        <input
+          type="text"
+          id="country"
+          placeholder="Country"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-controls="country-dropdown"
+        />
+        <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
+      </p>
+      <p>
+        <label for="postal">Postal Code</label>
+        <input
+          type="text"
+          id="postal"
+          placeholder="Postal Code"
+          autocomplete="postal-code"
+        />
+      </p>
+    `;
+
+    return localization;
   }
 }
 
