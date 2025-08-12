@@ -1,12 +1,6 @@
-function createNode(tag, attributes={}) {
-  const element = document.createElement(tag);
-  Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
-  return element;
-}
-
 class Form {
   static create() {
-    const form = createNode('form');
+    const form = document.createElement('form');
 
     form.append(
       Form.#createHeader(),
@@ -18,12 +12,12 @@ class Form {
   }
 
   static #createHeader() {
-    const container = createNode('header');
+    const container = document.createElement('header');
 
-    const header = createNode('h1');
+    const header = document.createElement('h1');
     header.textContent = 'Join the Green Energy Movement';
     
-    const subheader = createNode('h2');
+    const subheader = document.createElement('h2');
     subheader.textContent = 'Fill out the form to get started!';
 
     container.append(header, subheader);
@@ -31,8 +25,10 @@ class Form {
   }
 
   static #createAuthSection() {
-    const login = createNode('div', { class: 'auth-section' });
-    login.innerHTML = `
+    const auth = document.createElement('div');
+    auth.classList.add('auth-section');
+    
+    auth.innerHTML = `
       <p>
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Email" />
@@ -47,7 +43,7 @@ class Form {
       </p>
     `;
 
-    return login;
+    return auth;
   }
 
   static createLocalizationSection() {
