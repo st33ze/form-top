@@ -3,12 +3,20 @@ class Form {
     const form = document.createElement('form');
 
     form.append(
+      Form.#createImage(),
       Form.#createHeader(),
       Form.#createAuthSection(),
       Form.createLocalizationSection(),
     );
 
     return form;
+  }
+
+  static #createImage() {
+    const image = document.createElement('img');
+    image.src = '/form/img.webp';
+    image.alt = 'Wind turbines on a green hill with a blue sky';
+    return image;
   }
 
   static #createHeader() {
