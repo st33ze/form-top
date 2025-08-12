@@ -2,10 +2,10 @@
 
 /* ====================|| VARIABLES ||==================== */
 :root {
-  --clr-primary: 188deg, 31%, 33%;
-  --clr-on-primary-: 0deg, 0%, 100%;
-  --clr-primary-container: 112deg, 31%, 85%;
-  --clr-on-primary-container: 191deg, 27%, 25%;
+  --clr-primary: 188deg 31% 33%;
+  --clr-on-primary: 0deg 0% 100%;
+  --clr-primary-container: 112deg 31% 85%;
+  --clr-on-primary-container: 191deg 27% 25%;
 
   --ff-primary: 'Lato', sans-serif;
 
@@ -57,10 +57,9 @@ body {
   font-weight: var(--fw-regular);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   width: 100vw;
   height: 100vh;
-  padding: 0.5rem;
   
   color: hsl(var(--clr-on-primary-container));
   background-color: hsl(0, 0%, 85%);
