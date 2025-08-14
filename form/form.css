@@ -1,0 +1,39 @@
+form {
+  display: grid;
+  width: 100%;
+  background-color: hsl(var(--clr-primary-container));
+  border-radius: 0.5em 0.5rem 0 0;
+  overflow: hidden;
+
+  img {
+    grid-area: 1 / 1;
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  header {
+    grid-area: 1 / 1;
+    align-self: end;
+
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    color: hsl(var(--clr-on-primary));
+    background: linear-gradient(
+      to top,
+      hsl(var(--clr-on-primary-container) / 0.8),
+      hsl(var(--clr-on-primary-container) / 0.4)
+    );
+
+    h1 {
+      order: 2;
+      font-size: var(--fs-450);
+    }
+
+    h2 {
+      order: 1;
+      font-size: var(--fs-400);
+    }
+  }
+}
