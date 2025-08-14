@@ -37,18 +37,12 @@ class Form {
     auth.classList.add('auth-section');
     
     auth.innerHTML = `
-      <p>
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Email" />
-      </p>
-      <p>
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Password" />
-      </p>
-      <p>
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" placeholder="Confirm Password" />
-      </p>
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Email" />
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Password" />
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" placeholder="Confirm Password" />
     `;
 
     return auth;
@@ -59,27 +53,23 @@ class Form {
     localization.classList.add('localization-section');
 
     localization.innerHTML = `
-      <p>
-        <label for="country">Country</label>
-        <input
-          type="text"
-          id="country"
-          placeholder="Country"
-          aria-haspopup="listbox"
-          aria-expanded="false"
-          aria-controls="country-dropdown"
-        />
-        <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
-      </p>
-      <p>
-        <label for="postal">Postal Code</label>
-        <input
-          type="text"
-          id="postal"
-          placeholder="Postal Code"
-          autocomplete="postal-code"
-        />
-      </p>
+      <label for="country">Country</label>
+      <input
+        type="text"
+        id="country"
+        placeholder="Country"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-controls="country-dropdown"
+      />
+      <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
+      <label for="postal">Postal Code</label>
+      <input
+        type="text"
+        id="postal"
+        placeholder="Postal Code"
+        autocomplete="postal-code"
+      />
     `;
 
     return localization;
