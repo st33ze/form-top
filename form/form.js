@@ -37,12 +37,18 @@ class Form {
     auth.classList.add('auth-section');
     
     auth.innerHTML = `
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Email" />
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Password" />
-      <label for="confirm-password">Confirm Password</label>
-      <input type="password" id="confirm-password" placeholder="Confirm Password" />
+      <div class="form-element">
+        <input type="email" id="email" placeholder=" " />
+        <label for="email">Email</label>
+      </div>
+      <div class="form-element">
+        <input type="password" id="password" placeholder=" " />
+        <label for="password">Password</label>
+      </div>
+      <div class="form-element">
+        <input type="password" id="confirm-password" placeholder=" " />
+        <label for="confirm-password">Confirm Password</label>
+      </div>
     `;
 
     return auth;
@@ -53,23 +59,27 @@ class Form {
     localization.classList.add('localization-section');
 
     localization.innerHTML = `
-      <label for="country">Country</label>
-      <input
-        type="text"
-        id="country"
-        placeholder="Country"
-        aria-haspopup="listbox"
-        aria-expanded="false"
-        aria-controls="country-dropdown"
-      />
-      <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
-      <label for="postal">Postal Code</label>
-      <input
-        type="text"
-        id="postal"
-        placeholder="Postal Code"
-        autocomplete="postal-code"
-      />
+      <div class="form-element">
+        <input
+          type="text"
+          id="country"
+          placeholder=" "
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-controls="country-dropdown"
+        />
+        <label for="country">Country</label>
+        <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
+      </div>
+      <div class="form-element">
+        <input
+          type="text"
+          id="postal"
+          placeholder=" "
+          autocomplete="postal-code"
+        />
+        <label for="postal">Postal Code</label>
+      </div>
     `;
 
     return localization;
