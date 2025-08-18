@@ -3,7 +3,6 @@ class Form {
     const form = document.createElement('form');
 
     form.append(
-      Form.#createImage(),
       Form.#createHeader(),
       Form.#createAuthSection(),
       Form.createLocalizationSection(),
@@ -12,23 +11,13 @@ class Form {
     return form;
   }
 
-  static #createImage() {
-    const image = document.createElement('img');
-    image.src = '/form/img.webp';
-    image.alt = 'Wind turbines on a green hill with a blue sky';
-    return image;
-  }
-
   static #createHeader() {
     const container = document.createElement('header');
 
     const header = document.createElement('h1');
-    header.textContent = 'Join the Green Energy Movement';
+    header.textContent = 'charge into tomorrow';
     
-    const subheader = document.createElement('h2');
-    subheader.textContent = 'Fill out the form to get started!';
-
-    container.append(header, subheader);
+    container.appendChild(header);
     return container;
   }
 

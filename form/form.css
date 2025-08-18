@@ -1,39 +1,34 @@
 form {
   display: grid;
   width: 100%;
-  background-color: hsl(var(--clr-primary-container));
+  color: hsl(var(--clr-text));
+  background-color: hsl(var(--clr-primary));
   border-radius: 0.5em 0.5rem 0 0;
   overflow: hidden;
 
-  img {
-    grid-area: 1 / 1;
-    max-height: 200px;
-    width: 100%;
-    object-fit: cover;
-  }
-
   header {
-    grid-area: 1 / 1;
-    align-self: end;
-
     display: flex;
-    flex-direction: column;
-    padding: 0.5rem;
-    color: hsl(var(--clr-on-primary));
-    background: linear-gradient(
-      to top,
-      hsl(var(--clr-on-primary-container) / 0.8),
-      hsl(var(--clr-on-primary-container) / 0.4)
-    );
+    align-items: end;
+    justify-content: end;
+    height: 200px;
+    background-image: url("carSmall.avif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     h1 {
-      order: 2;
+      font-family: var(--ff-header);
       font-size: var(--fs-450);
-    }
-
-    h2 {
-      order: 1;
-      font-size: var(--fs-400);
+      font-weight: var(--fw-regular);
+      text-transform: capitalize;
+      padding: 0.5rem;
+      color: hsl(var(--clr-subtext));
+      background: linear-gradient(
+        to top left,
+        hsla(var(--clr-primary), 0.7) 20%,
+        hsla(var(--clr-subtext), 0.2)
+      );
+      border-top-left-radius: 0.5rem;
     }
   }
 }
