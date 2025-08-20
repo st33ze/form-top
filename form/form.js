@@ -27,15 +27,15 @@ class Form {
     
     auth.innerHTML = `
       <div class="form-element">
-        <input type="email" id="email" placeholder=" " />
+        <input type="email" id="email" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
         <label for="email">Email</label>
       </div>
       <div class="form-element">
-        <input type="password" id="password" placeholder=" " />
+        <input type="password" id="password" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
         <label for="password">Password</label>
       </div>
       <div class="form-element">
-        <input type="password" id="confirm-password" placeholder=" " />
+        <input type="password" id="confirm-password" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
         <label for="confirm-password">Confirm Password</label>
       </div>
     `;
@@ -49,24 +49,12 @@ class Form {
 
     localization.innerHTML = `
       <div class="form-element">
-        <input
-          type="text"
-          id="country"
-          placeholder=" "
-          aria-haspopup="listbox"
-          aria-expanded="false"
-          aria-controls="country-dropdown"
-        />
+        <input type="text" id="country" placeholder=" " aria-haspopup="listbox" aria-expanded="false" aria-controls="country-dropdown" autocorrect="off" autocapitalize="none" spellcheck="false"/>
         <label for="country">Country</label>
         <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
       </div>
       <div class="form-element">
-        <input
-          type="text"
-          id="postal"
-          placeholder=" "
-          autocomplete="postal-code"
-        />
+        <input type="text" id="postal" placeholder=" " autocomplete="postal-code" autocorrect="off" autocapitalize="none" spellcheck="false"/>
         <label for="postal">Postal Code</label>
       </div>
     `;
