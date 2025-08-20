@@ -31,4 +31,47 @@ form {
       border-top-left-radius: 0.5rem;
     }
   }
+
+  div[class$="section"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+
+    .form-element {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        position: absolute;
+        top: 50%;
+        left: 0.25rem;
+        transform: translateY(-50%);
+        color: hsl(var(--clr-subtext));
+        font-size: 1rem;
+        pointer-events: none;
+        transition: 0.2s ease all;
+        padding: 0 0.25rem;
+      }
+      
+      input {
+        width: 250px;
+        padding: 0.25rem;
+        color: hsl(var(--clr-text));
+        background-color: hsl(var(--clr-primary));
+        border: 1px solid hsl(var(--clr-accent));
+        border-radius: 0.5rem;
+      }
+      
+      input:focus + label,
+      input:not(:placeholder-shown) + label {
+        top: -1.3rem;
+        left: 0rem;
+        transform: none;
+        font-size: calc(var(--fs-400) - 2px);
+      }
+    }
+  }
 }
