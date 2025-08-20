@@ -63,6 +63,16 @@ form {
         background-color: hsl(var(--clr-primary));
         border: 1px solid hsl(var(--clr-accent));
         border-radius: 0.5rem;
+
+        &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 100px hsl(var(--clr-primary)) inset !important;
+          -webkit-text-fill-color: hsl(var(--clr-text)) !important;
+          caret-color: hsl(var(--clr-text));
+
+          &::first-line {
+            color: hsl(var(--clr-text));
+          }
+        }
       }
       
       input:focus + label,
