@@ -37,7 +37,9 @@ form {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
+
+    /* padding-block: 2.5rem; */
 
     .form-element {
       position: relative;
@@ -72,6 +74,16 @@ form {
           &::first-line {
             color: hsl(var(--clr-text));
           }
+        }
+
+        &:hover {
+          border-color: #90A4AE;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: hsl(var(--clr-secondary));
+          box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
         }
       }
       
