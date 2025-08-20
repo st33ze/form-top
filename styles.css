@@ -1,16 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap');
 /* ====================|| VARIABLES ||==================== */
 :root {
-  --clr-primary: 188deg 31% 33%;
-  --clr-on-primary: 0deg 0% 100%;
-  --clr-primary-container: 112deg 31% 85%;
-  --clr-on-primary-container: 191deg 27% 25%;
+  --clr-primary: 224, 41%, 7%;
+  --clr-secondary: 186, 100%, 50%;
+  --clr-accent: 0, 0%, 23%;
+  --clr-text: 0, 0%, 100%;
+  --clr-subtext: 200, 16%, 62%;
+  --clr-warning: 28, 100%, 50%;
 
-  --ff-primary: 'Lato', sans-serif;
+  --ff-primary: 'Roboto', sans-serif;
+  --ff-header: 'Montserrat', sans-serif;
 
   --fw-regular: 400;
-  --fw-bold: 700;
 
   --fs-400: 1rem;
   --fs-450: 1.25rem;
@@ -60,7 +61,4 @@ body {
   align-items: end;
   width: 100vw;
   height: 100vh;
-  
-  color: hsl(var(--clr-on-primary-container));
-  background-color: hsl(0, 0%, 85%);
 }
