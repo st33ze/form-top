@@ -5,7 +5,8 @@ class Form {
     form.append(
       Form.#createHeader(),
       Form.#createAuthSection(),
-      Form.createLocalizationSection(),
+      Form.#createLocalizationSection(),
+      Form.#createButton(),
     );
 
     return form;
@@ -43,7 +44,7 @@ class Form {
     return auth;
   }
 
-  static createLocalizationSection() {
+  static #createLocalizationSection() {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
 
@@ -60,6 +61,19 @@ class Form {
     `;
 
     return localization;
+  }
+
+  static #createButton() {
+    const button = document.createElement('button');
+    button.type = 'submit';
+    button.textContent = 'Submit';
+
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      console.log('Form submitted');
+    });
+
+    return button;
   }
 }
 
