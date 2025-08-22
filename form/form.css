@@ -96,4 +96,31 @@ form {
       }
     }
   }
+  button[type="submit"] {
+    justify-self: center;
+    width: 250px;
+    background-color: hsl(var(--clr-subtext));
+    color: hsl(var(--clr-primary));
+    border: 1px solid hsl(var(--clr-accent));
+    padding: 8px 16px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0,1s ease;
+
+    &:hover,
+    &:focus {
+      background-color: hsl(var(--clr-primary));
+      color: hsl(var(--clr-subtext));
+      border-color: hsl(var(--clr-subtext));
+      transform: translateY(-2px);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
+      border-color: hsl(var(--clr-secondary));
+    }
+  }
 }
