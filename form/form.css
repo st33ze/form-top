@@ -1,12 +1,10 @@
 form {
   display: grid;
   gap: 3rem;
+  width: min(100%, 1000px);
   padding-bottom: 2rem;
-  width: 100%;
   color: hsl(var(--clr-text));
   background-color: hsl(var(--clr-primary));
-  border-radius: 0.5rem;
-  overflow: hidden;
 
   header {
     display: flex;
@@ -120,6 +118,40 @@ form {
       outline: none;
       box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
       border-color: hsl(var(--clr-secondary));
+    }
+  }
+}
+
+@media (min-width: 650px) {
+  form {
+    header {
+      background-image: url("car.avif");
+      height: 250px;
+
+      h1 {
+        font-size: var(--fs-500);
+      }
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  form {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    padding-bottom: 0;
+    
+    header {
+      grid-row: 1 / 4;
+      height: 100%;
+    }
+
+    .auth-section {
+      margin-top: 2rem;
+    }
+
+    button[type="submit"] {
+      margin-bottom: 2rem;
     }
   }
 }
