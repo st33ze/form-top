@@ -1,4 +1,5 @@
 form {
+  position: relative;
   display: grid;
   gap: 3rem;
   width: min(100%, 1000px);
@@ -55,7 +56,8 @@ form {
         padding: 0 0.25rem;
       }
       
-      input {
+      input,
+      [class$="-input"] {
         width: 250px;
         padding: 0.25rem;
         color: hsl(var(--clr-text));

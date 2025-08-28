@@ -28,15 +28,28 @@ class Form {
     
     auth.innerHTML = `
       <div class="form-element">
-        <input type="email" id="email" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
+        <input type="email" 
+               id="email" placeholder=" " 
+               autocorrect="off" 
+               autocapitalize="none" 
+               spellcheck="false"/>
         <label for="email">Email</label>
       </div>
       <div class="form-element">
-        <input type="password" id="password" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
+        <input type="password" 
+               id="password" placeholder=" " 
+               autocorrect="off" 
+               autocapitalize="none" 
+               spellcheck="false"/>
         <label for="password">Password</label>
       </div>
       <div class="form-element">
-        <input type="password" id="confirm-password" placeholder=" " autocorrect="off" autocapitalize="none" spellcheck="false"/>
+        <input type="password" 
+               id="confirm-password" 
+               placeholder=" " 
+               autocorrect="off" 
+               autocapitalize="none" 
+               spellcheck="false"/>
         <label for="confirm-password">Confirm Password</label>
       </div>
     `;
@@ -50,12 +63,33 @@ class Form {
 
     localization.innerHTML = `
       <div class="form-element">
-        <input type="text" id="country" placeholder=" " aria-haspopup="listbox" aria-expanded="false" aria-controls="country-dropdown" autocorrect="off" autocapitalize="none" spellcheck="false"/>
-        <label for="country">Country</label>
-        <ul id="country-dropdown" role="listbox" tabindex="-1"></ul>
+        <div class="country-select">
+          <div id="country-input"
+               class="country-input"
+               contenteditable="true"
+               role="combobox"
+               aria-expanded="false"
+               aria-autocomplete="list"
+               aria-owns="country-dropdown"
+               aria-haspopup="listbox"
+               aria-controls="country-dropdown">
+          </div>
+          <div id="country-dropdown"
+               class="dropdown hidden"
+               role="listbox">
+          </div>
+          <input type="hidden" name="country_code" id="country-code">
+        </div>
+        <label for="country-input">Country</label>
       </div>
       <div class="form-element">
-        <input type="text" id="postal" placeholder=" " autocomplete="postal-code" autocorrect="off" autocapitalize="none" spellcheck="false"/>
+        <input type="text"
+               id="postal" 
+               placeholder=" " 
+               autocomplete="postal-code" 
+               autocorrect="off" 
+               autocapitalize="none" 
+               spellcheck="false"/>
         <label for="postal">Postal Code</label>
       </div>
     `;
