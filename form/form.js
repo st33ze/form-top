@@ -9,6 +9,8 @@ class Form {
       Form.#createButton(),
     );
 
+    Form.#addEventListeners(form);
+
     return form;
   }
 
@@ -109,6 +111,18 @@ class Form {
     });
 
     return button;
+  }
+
+  static #addEventListeners(form) {
+    const countryLabel = form.querySelector('#country-label');
+    const countryInput = form.querySelector('#country-input');
+    countryInput.addEventListener('focus', () => {
+      countryLabel.classList.add('label-moved');
+    });
+    countryInput.addEventListener('blur', () => {
+      if (!countryInput.textContent.trim())
+        countryLabel.classList.remove('label-moved');
+    });
   }
 }
 

@@ -86,6 +86,7 @@ form {
         }
       }
       
+      label.label-moved,
       input:focus + label,
       input:not(:placeholder-shown) + label {
         top: -1.3rem;
