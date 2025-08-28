@@ -68,6 +68,7 @@ class Form {
                class="country-input"
                contenteditable="true"
                role="combobox"
+               aria-labelledby="country-label"
                aria-expanded="false"
                aria-autocomplete="list"
                aria-owns="country-dropdown"
@@ -80,7 +81,7 @@ class Form {
           </div>
           <input type="hidden" name="country_code" id="country-code">
         </div>
-        <label for="country-input">Country</label>
+        <label id="country-label">Country</label>
       </div>
       <div class="form-element">
         <input type="text"
