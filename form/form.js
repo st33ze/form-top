@@ -56,33 +56,13 @@ class Form {
     const auth = document.createElement('div');
     auth.classList.add('auth-section');
     
-    auth.innerHTML = `
-      <div class="form-element">
-        <input type="email" 
-               id="email" placeholder=" " 
-               autocorrect="off" 
-               autocapitalize="none" 
-               spellcheck="false"/>
-        <label for="email">Email</label>
-      </div>
-      <div class="form-element">
-        <input type="password" 
-               id="password" placeholder=" " 
-               autocorrect="off" 
-               autocapitalize="none" 
-               spellcheck="false"/>
-        <label for="password">Password</label>
-      </div>
-      <div class="form-element">
-        <input type="password" 
-               id="confirm-password" 
-               placeholder=" " 
-               autocorrect="off" 
-               autocapitalize="none" 
-               spellcheck="false"/>
-        <label for="confirm-password">Confirm Password</label>
-      </div>
-    `;
+    auth.append(
+      Input.create({ type: 'email' }),
+      Input.create({ type: 'password' }),
+      Input.create({ type: 'password',
+                     id: 'confirm-password',
+                     labelName: 'Confirm Password'})
+    );
 
     return auth;
   }
