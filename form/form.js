@@ -1,3 +1,5 @@
+import COUNTRIES from './countries/countries.js';
+
 class Form {
   static create() {
     const form = document.createElement('form');
@@ -59,6 +61,28 @@ class Form {
     return auth;
   }
 
+  static #fillCountryDropdown(dropdown) {
+    for (const country of COUNTRIES) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.setAttribute('role', 'option');
+      item.setAttribute('tabindex', '-1');
+      item.dataset.countryCode = country.code;
+
+      const img = document.createElement('img');
+      img.className = 'flag';
+      img.src = `form/countries/flags/${country.code}.svg`;
+      img.alt = `${country.name} flag`;
+
+      const span = document.createElement('span');
+      span.className = 'country-name';
+      span.textContent = country.name;
+
+      item.append(img, span);
+      dropdown.appendChild(item);
+    }
+  }
+
   static #createLocalizationSection() {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
@@ -97,6 +121,8 @@ class Form {
       </div>
     `;
 
+    Form.#fillCountryDropdown(localization.querySelector('#country-dropdown'));
+
     return localization;
   }
 
@@ -118,6 +144,7 @@ class Form {
     const countryInput = form.querySelector('#country-input');
     countryInput.addEventListener('focus', () => {
       countryLabel.classList.add('label-moved');
+      countryInput.closest('.form-element').classList.add('select-active');
     });
     countryInput.addEventListener('blur', () => {
       if (!countryInput.textContent.trim())
