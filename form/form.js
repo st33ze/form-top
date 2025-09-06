@@ -88,6 +88,46 @@ class Form {
       dropdown.appendChild(item);
     }
   }
+  static #createCountrySelect() {
+    const container = document.createElement('div');
+    container.className = 'form-element';
+
+    const selectContainer = document.createElement('div');
+    selectContainer.className = 'country-select';
+
+    const input = document.createElement('div');
+    input.id = 'country-input';
+    input.className = 'country-input';
+    input.contentEditable = 'true';
+    input.role = 'combobox';
+    input.ariaLabelledby = 'country-label';
+    input.ariaExpanded = 'false';
+    input.ariaAutoComplete = 'list';
+    input.ariaOwns = 'country-dropdown';
+    input.ariaHasPopup = 'listbox';
+    input.ariaControls = 'country-dropdown';
+
+    const dropdown = document.createElement('div');
+    dropdown.id = 'country-dropdown';
+    dropdown.className = 'dropdown';
+    dropdown.role = 'listbox';
+    Form.#fillCountryDropdown(dropdown);
+
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'country_code';
+    hiddenInput.id = 'country-code';
+
+    selectContainer.append(input, dropdown, hiddenInput);
+
+    const label = document.createElement('label');
+    label.id = 'country-label';
+    label.textContent = 'Country';
+
+    container.append(selectContainer, label);
+
+    return container;
+  }
 
   static #createLocalizationSection() {
     const localization = document.createElement('div');
