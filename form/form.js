@@ -133,41 +133,10 @@ class Form {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
 
-    localization.innerHTML = `
-      <div class="form-element">
-        <div class="country-select">
-          <div id="country-input"
-               class="country-input"
-               contenteditable="true"
-               role="combobox"
-               aria-labelledby="country-label"
-               aria-expanded="false"
-               aria-autocomplete="list"
-               aria-owns="country-dropdown"
-               aria-haspopup="listbox"
-               aria-controls="country-dropdown">
-          </div>
-          <div id="country-dropdown"
-               class="dropdown hidden"
-               role="listbox">
-          </div>
-          <input type="hidden" name="country_code" id="country-code">
-        </div>
-        <label id="country-label">Country</label>
-      </div>
-      <div class="form-element">
-        <input type="text"
-               id="postal" 
-               placeholder=" " 
-               autocomplete="postal-code" 
-               autocorrect="off" 
-               autocapitalize="none" 
-               spellcheck="false"/>
-        <label for="postal">Postal Code</label>
-      </div>
-    `;
+    const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
+    postal.querySelector('input').autocomplete = 'postal-code';
 
-    Form.#fillCountryDropdown(localization.querySelector('#country-dropdown'));
+    localization.append(Form.#createCountrySelect(), postal);
 
     return localization;
   }
