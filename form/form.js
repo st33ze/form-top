@@ -88,6 +88,7 @@ class Form {
       dropdown.appendChild(item);
     }
   }
+
   static #createCountrySelect() {
     const container = document.createElement('div');
     container.className = 'form-element';
@@ -160,6 +161,7 @@ class Form {
     countryInput.addEventListener('focus', () => {
       countryLabel.classList.add('label-moved');
       countryInput.closest('.form-element').classList.add('select-active');
+      document.body.classList.add('modal-open');
     });
     countryInput.addEventListener('blur', () => {
       if (!countryInput.textContent.trim())

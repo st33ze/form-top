@@ -56,6 +56,4 @@ body {
   font-family: var(--ff-primary);
   font-size: 1rem;
   font-weight: var(--fw-regular);
-  width: 100vw;
-  height: 100vh;
 }
