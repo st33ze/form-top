@@ -82,8 +82,18 @@ form {
             .dropdown-item {
               display: flex;
               align-items: center;
+              max-width: 250px;
               gap: 0.5rem;
               padding: 0.5rem;
+              border-radius: 0.5rem;
+
+              &.option-selected {
+                background-color: hsl(var(--clr-subtext));
+                
+                span {
+                  color: hsl(var(--clr-primary));
+                }
+              }
 
               .flag {
                 width: 24px;

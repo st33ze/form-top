@@ -122,6 +122,15 @@ class CountrySelect {
       );
     });
 
+    dropdown.addEventListener('click', (e) => {
+      const option = e.target.closest('.dropdown-item');
+      if (!option) return;
+
+      const selectedOption = dropdown.querySelector('.option-selected');
+      selectedOption?.classList.remove('option-selected');
+
+      if (option !== selectedOption) option.classList.add('option-selected');
+    });
   }
 
 }
