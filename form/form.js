@@ -68,14 +68,14 @@ class CountrySelect {
 
     container.append(selectContainer, label);
     
-    CountrySelect.#fillDropdown(dropdown);
+    CountrySelect.#fillDropdown(dropdown, COUNTRIES);
     CountrySelect.#addEventListeners(container);
     
     return container;
   }
   
-  static #fillDropdown(dropdown) {
-    for (const country of COUNTRIES) {
+  static #fillDropdown(dropdown, countries) {
+    for (const country of countries) {
       const item = document.createElement('div');
       item.className = 'dropdown-item';
       item.setAttribute('role', 'option');
@@ -99,6 +99,7 @@ class CountrySelect {
   static #addEventListeners(container) {
     const label = container.querySelector('#country-label');
     const input = container.querySelector('#country-input');
+    const dropdown = container.querySelector('#country-dropdown');
     
     input.addEventListener('focus', () => {
       label.classList.add('label-moved');
@@ -110,6 +111,17 @@ class CountrySelect {
       if (!input.textContent.trim())
         label.classList.remove('label-moved');
     });
+
+    input.addEventListener('input', () => {
+      const term = input.textContent.toLowerCase().trim();
+
+      dropdown.innerHTML = '';
+      CountrySelect.#fillDropdown(
+        dropdown,
+        COUNTRIES.filter(c => c.name.toLowerCase().includes(term))
+      );
+    });
+
   }
 
 }
