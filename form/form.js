@@ -1,6 +1,7 @@
 import COUNTRIES from './countries/countries.js';
 
 class Input {
+
   static create({ type, id, labelName }) {
     const container = document.createElement('div');
     container.className = 'form-element';
@@ -24,9 +25,98 @@ class Input {
   static capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
 }
 
+
+class CountrySelect {
+
+  static create() {
+    const container = document.createElement('div');
+    container.className = 'form-element';
+
+    const selectContainer = document.createElement('div');
+    selectContainer.className = 'country-select';
+
+    const input = document.createElement('div');
+    input.id = 'country-input';
+    input.className = 'country-input';
+    input.contentEditable = 'true';
+    input.role = 'combobox';
+    input.ariaLabelledby = 'country-label';
+    input.ariaExpanded = 'false';
+    input.ariaAutoComplete = 'list';
+    input.ariaOwns = 'country-dropdown';
+    input.ariaHasPopup = 'listbox';
+    input.ariaControls = 'country-dropdown';
+
+    const dropdown = document.createElement('div');
+    dropdown.id = 'country-dropdown';
+    dropdown.className = 'dropdown';
+    dropdown.role = 'listbox';
+
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'country_code';
+    hiddenInput.id = 'country-code';
+
+    selectContainer.append(input, dropdown, hiddenInput);
+
+    const label = document.createElement('label');
+    label.id = 'country-label';
+    label.textContent = 'Country';
+
+    container.append(selectContainer, label);
+    
+    CountrySelect.#fillDropdown(dropdown);
+    CountrySelect.#addEventListeners(container);
+    
+    return container;
+  }
+  
+  static #fillDropdown(dropdown) {
+    for (const country of COUNTRIES) {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.setAttribute('role', 'option');
+      item.setAttribute('tabindex', '-1');
+      item.dataset.countryCode = country.code;
+
+      const img = document.createElement('img');
+      img.className = 'flag';
+      img.src = `form/countries/flags/${country.code}.svg`;
+      img.alt = `${country.name} flag`;
+
+      const span = document.createElement('span');
+      span.className = 'country-name';
+      span.textContent = country.name;
+
+      item.append(img, span);
+      dropdown.appendChild(item);
+    }
+  }
+  
+  static #addEventListeners(container) {
+    const label = container.querySelector('#country-label');
+    const input = container.querySelector('#country-input');
+    
+    input.addEventListener('focus', () => {
+      label.classList.add('label-moved');
+      container.classList.add('select-active');
+      document.body.classList.add('modal-open');
+    });
+
+    input.addEventListener('blur', () => {
+      if (!input.textContent.trim())
+        label.classList.remove('label-moved');
+    });
+  }
+
+}
+
+
 class Form {
+
   static create() {
     const form = document.createElement('form');
 
@@ -34,10 +124,8 @@ class Form {
       Form.#createHeader(),
       Form.#createAuthSection(),
       Form.#createLocalizationSection(),
-      Form.#createButton(),
+      Form.#createSubmitBtn(),
     );
-
-    Form.#addEventListeners(form);
 
     return form;
   }
@@ -67,69 +155,6 @@ class Form {
     return auth;
   }
 
-  static #fillCountryDropdown(dropdown) {
-    for (const country of COUNTRIES) {
-      const item = document.createElement('div');
-      item.className = 'dropdown-item';
-      item.setAttribute('role', 'option');
-      item.setAttribute('tabindex', '-1');
-      item.dataset.countryCode = country.code;
-
-      const img = document.createElement('img');
-      img.className = 'flag';
-      img.src = `form/countries/flags/${country.code}.svg`;
-      img.alt = `${country.name} flag`;
-
-      const span = document.createElement('span');
-      span.className = 'country-name';
-      span.textContent = country.name;
-
-      item.append(img, span);
-      dropdown.appendChild(item);
-    }
-  }
-
-  static #createCountrySelect() {
-    const container = document.createElement('div');
-    container.className = 'form-element';
-
-    const selectContainer = document.createElement('div');
-    selectContainer.className = 'country-select';
-
-    const input = document.createElement('div');
-    input.id = 'country-input';
-    input.className = 'country-input';
-    input.contentEditable = 'true';
-    input.role = 'combobox';
-    input.ariaLabelledby = 'country-label';
-    input.ariaExpanded = 'false';
-    input.ariaAutoComplete = 'list';
-    input.ariaOwns = 'country-dropdown';
-    input.ariaHasPopup = 'listbox';
-    input.ariaControls = 'country-dropdown';
-
-    const dropdown = document.createElement('div');
-    dropdown.id = 'country-dropdown';
-    dropdown.className = 'dropdown';
-    dropdown.role = 'listbox';
-    Form.#fillCountryDropdown(dropdown);
-
-    const hiddenInput = document.createElement('input');
-    hiddenInput.type = 'hidden';
-    hiddenInput.name = 'country_code';
-    hiddenInput.id = 'country-code';
-
-    selectContainer.append(input, dropdown, hiddenInput);
-
-    const label = document.createElement('label');
-    label.id = 'country-label';
-    label.textContent = 'Country';
-
-    container.append(selectContainer, label);
-
-    return container;
-  }
-
   static #createLocalizationSection() {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
@@ -137,12 +162,12 @@ class Form {
     const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
     postal.querySelector('input').autocomplete = 'postal-code';
 
-    localization.append(Form.#createCountrySelect(), postal);
+    localization.append(CountrySelect.create(), postal);
 
     return localization;
   }
 
-  static #createButton() {
+  static #createSubmitBtn() {
     const button = document.createElement('button');
     button.type = 'submit';
     button.textContent = 'Submit';
@@ -155,19 +180,7 @@ class Form {
     return button;
   }
 
-  static #addEventListeners(form) {
-    const countryLabel = form.querySelector('#country-label');
-    const countryInput = form.querySelector('#country-input');
-    countryInput.addEventListener('focus', () => {
-      countryLabel.classList.add('label-moved');
-      countryInput.closest('.form-element').classList.add('select-active');
-      document.body.classList.add('modal-open');
-    });
-    countryInput.addEventListener('blur', () => {
-      if (!countryInput.textContent.trim())
-        countryLabel.classList.remove('label-moved');
-    });
-  }
 }
+
 
 export default Form.create();
