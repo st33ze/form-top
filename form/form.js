@@ -30,8 +30,17 @@ class Input {
 
 
 class CountrySelect {
+  #node
+  #options
 
-  static create() {
+  constructor() {
+    this.#node = CountrySelect.#create();
+    this.#options = CountrySelect.#createOptions();
+    this.#fillDropdown();
+    this.#addEventListeners();
+  }
+
+  static #create() {
     const container = document.createElement('div');
     container.className = 'form-element';
 
@@ -68,19 +77,16 @@ class CountrySelect {
 
     container.append(selectContainer, label);
     
-    CountrySelect.#fillDropdown(dropdown, COUNTRIES);
-    CountrySelect.#addEventListeners(container);
-    
     return container;
   }
   
-  static #fillDropdown(dropdown, countries) {
-    for (const country of countries) {
-      const item = document.createElement('div');
-      item.className = 'dropdown-item';
-      item.setAttribute('role', 'option');
-      item.setAttribute('tabindex', '-1');
-      item.dataset.countryCode = country.code;
+  static #createOptions() {
+    return COUNTRIES.map(country => {
+      const node = document.createElement('div');
+      node.className = 'dropdown-item';
+      node.setAttribute('role', 'option');
+      node.setAttribute('tabindex', '-1');
+      node.dataset.countryCode = country.code;
 
       const img = document.createElement('img');
       img.className = 'flag';
@@ -91,19 +97,32 @@ class CountrySelect {
       span.className = 'country-name';
       span.textContent = country.name;
 
-      item.append(img, span);
-      dropdown.appendChild(item);
-    }
+      node.append(img, span);
+
+      return {...country, element: node};
+    });
+  }
+
+  #fillDropdown() {
+    const dropdown = this.#node.querySelector('#country-dropdown');
+    this.#options.forEach(option => dropdown.appendChild(option.element));
   }
   
-  static #addEventListeners(container) {
-    const label = container.querySelector('#country-label');
-    const input = container.querySelector('#country-input');
-    const dropdown = container.querySelector('#country-dropdown');
+  #filterOptions(term) {
+    this.#options.forEach(option => {
+      const includesTerm = option.name.toLowerCase().includes(term);
+      option.element.style.display = includesTerm ? '' : 'none';
+    });
+  }
+
+  #addEventListeners() {
+    const label = this.#node.querySelector('#country-label');
+    const input = this.#node.querySelector('#country-input');
+    const dropdown = this.#node.querySelector('#country-dropdown');
     
     input.addEventListener('focus', () => {
       label.classList.add('label-moved');
-      container.classList.add('select-active');
+      this.#node.classList.add('select-active');
       document.body.classList.add('modal-open');
     });
 
@@ -114,12 +133,7 @@ class CountrySelect {
 
     input.addEventListener('input', () => {
       const term = input.textContent.toLowerCase().trim();
-
-      dropdown.innerHTML = '';
-      CountrySelect.#fillDropdown(
-        dropdown,
-        COUNTRIES.filter(c => c.name.toLowerCase().includes(term))
-      );
+      this.#filterOptions(term);
     });
 
     dropdown.addEventListener('click', (e) => {
@@ -133,6 +147,9 @@ class CountrySelect {
     });
   }
 
+  get node() {
+    return this.#node;
+  }
 }
 
 
@@ -180,10 +197,11 @@ class Form {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
 
+    const country = new CountrySelect();
     const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
     postal.querySelector('input').autocomplete = 'postal-code';
 
-    localization.append(CountrySelect.create(), postal);
+    localization.append(country.node, postal);
 
     return localization;
   }
