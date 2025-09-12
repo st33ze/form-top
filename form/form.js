@@ -15,7 +15,7 @@ class Input {
     input.spellcheck = 'false';
 
     const label = document.createElement('label');
-    label.for = id;
+    label.htmlFor = input.id;
     label.textContent = labelName || Input.capitalizeFirst(type);
 
     container.append(input, label);
