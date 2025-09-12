@@ -52,12 +52,12 @@ class CountrySelect {
     input.className = 'country-input';
     input.contentEditable = 'true';
     input.role = 'combobox';
-    input.ariaLabelledby = 'country-label';
-    input.ariaExpanded = 'false';
-    input.ariaAutoComplete = 'list';
-    input.ariaOwns = 'country-dropdown';
-    input.ariaHasPopup = 'listbox';
-    input.ariaControls = 'country-dropdown';
+    input.setAttribute('aria-labelledby', 'country-label');
+    input.setAttribute('aria-expanded', 'false');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-owns', 'country-dropdown');
+    input.setAttribute('aria-haspopup', 'listbox');
+    input.setAttribute('aria-controls', 'country-dropdown');
 
     const dropdown = document.createElement('div');
     dropdown.id = 'country-dropdown';
@@ -71,12 +71,13 @@ class CountrySelect {
 
     selectContainer.append(input, dropdown, hiddenInput);
 
-    const label = document.createElement('label');
+    const label = document.createElement('div');
     label.id = 'country-label';
+    label.className = 'select-label';
     label.textContent = 'Country';
 
     container.append(selectContainer, label);
-    
+
     return container;
   }
   
