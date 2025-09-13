@@ -131,9 +131,14 @@ class CountrySelect {
     }
   }
 
-  #toggleModal() {
-    this.#node.classList.toggle('select-active');
-    document.body.classList.toggle('modal-open');
+  #openModal() {
+    this.#node.classList.add('select-active');
+    document.body.classList.add('modal-open');
+  }
+  
+  #closeModal() {
+    this.#node.classList.remove('select-active');
+    document.body.classList.remove('modal-open');
   }
 
   #addEventListeners() {
@@ -143,7 +148,7 @@ class CountrySelect {
     
     input.addEventListener('focus', () => {
       label.classList.add('label-moved');
-      this.#toggleModal();
+      this.#openModal();
     });
 
     input.addEventListener('blur', () => {
@@ -156,11 +161,13 @@ class CountrySelect {
       this.#filter(term);
     });
 
+    label.addEventListener('click', () => input.focus());
+
     dropdown.addEventListener('click', (e) => {
       const option = e.target.closest('.dropdown-item');
       if (option) {
         this.#select(option);
-        this.#toggleModal();
+        this.#closeModal();
       }
     });
   }
