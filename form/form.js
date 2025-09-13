@@ -32,6 +32,7 @@ class Input {
 class CountrySelect {
   #node
   #options
+  #selected
 
   constructor() {
     this.#node = CountrySelect.#create();
@@ -86,6 +87,7 @@ class CountrySelect {
       const node = document.createElement('div');
       node.className = 'dropdown-item';
       node.setAttribute('role', 'option');
+      node.setAttribute('aria-selected', 'false');
       node.setAttribute('tabindex', '-1');
       node.dataset.countryCode = country.code;
 
@@ -109,11 +111,29 @@ class CountrySelect {
     this.#options.forEach(option => dropdown.appendChild(option.element));
   }
   
-  #filterOptions(term) {
+  #filter(term) {
     this.#options.forEach(option => {
       const includesTerm = option.name.toLowerCase().includes(term);
       option.element.style.display = includesTerm ? '' : 'none';
     });
+  }
+
+  #select(option) {
+    const hiddenInput = this.#node.querySelector('#country-code');
+
+    this.#selected?.setAttribute('aria-selected', 'false');
+    hiddenInput.value = '';
+
+    this.#selected = option === this.#selected ? null: option;
+    if (this.#selected) {
+      this.#selected.setAttribute('aria-selected', 'true');
+      hiddenInput.value = option.dataset.countryCode;
+    }
+  }
+
+  #toggleModal() {
+    this.#node.classList.toggle('select-active');
+    document.body.classList.toggle('modal-open');
   }
 
   #addEventListeners() {
@@ -123,8 +143,7 @@ class CountrySelect {
     
     input.addEventListener('focus', () => {
       label.classList.add('label-moved');
-      this.#node.classList.add('select-active');
-      document.body.classList.add('modal-open');
+      this.#toggleModal();
     });
 
     input.addEventListener('blur', () => {
@@ -134,17 +153,15 @@ class CountrySelect {
 
     input.addEventListener('input', () => {
       const term = input.textContent.toLowerCase().trim();
-      this.#filterOptions(term);
+      this.#filter(term);
     });
 
     dropdown.addEventListener('click', (e) => {
       const option = e.target.closest('.dropdown-item');
-      if (!option) return;
-
-      const selectedOption = dropdown.querySelector('.option-selected');
-      selectedOption?.classList.remove('option-selected');
-
-      if (option !== selectedOption) option.classList.add('option-selected');
+      if (option) {
+        this.#select(option);
+        this.#toggleModal();
+      }
     });
   }
 

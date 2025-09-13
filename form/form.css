@@ -87,7 +87,7 @@ form {
               padding: 0.5rem;
               border-radius: 0.5rem;
 
-              &.option-selected {
+              &[aria-selected="true"] {
                 background-color: hsl(var(--clr-subtext));
                 
                 span {
