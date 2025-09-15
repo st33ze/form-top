@@ -71,6 +71,12 @@ form {
           flex: 1 1 auto;
           min-height: 0;
 
+          .country-input:focus:empty::before {
+            content: 'search...';
+            color: hsla(var(--clr-subtext), 0.5);
+            pointer-events: none;
+          }
+
           .dropdown {
             flex: 1 1 auto;
             overflow-y: auto;

@@ -152,8 +152,8 @@ class CountrySelect {
     });
 
     input.addEventListener('blur', () => {
-      if (!input.textContent.trim())
-        label.classList.remove('label-moved');
+      input.textContent = input.textContent.trim();
+      if (!input.textContent) label.classList.remove('label-moved');
     });
 
     input.addEventListener('input', () => {
