@@ -30,12 +30,16 @@ class Input {
 
 
 class CountrySelect {
-  #node
+
+  #container
+  #refs
   #options
   #selected
 
   constructor() {
-    this.#node = CountrySelect.#create();
+    const { container, refs} = CountrySelect.#create();
+    this.#container = container;
+    this.#refs = refs;
     this.#options = CountrySelect.#createOptions();
     this.#fillDropdown();
     this.#addEventListeners();
@@ -79,7 +83,10 @@ class CountrySelect {
 
     container.append(selectContainer, label);
 
-    return container;
+    return {
+      container,
+      refs: { input, dropdown, hiddenInput, label}
+    };
   }
   
   static #createOptions() {
@@ -107,8 +114,7 @@ class CountrySelect {
   }
 
   #fillDropdown() {
-    const dropdown = this.#node.querySelector('#country-dropdown');
-    this.#options.forEach(option => dropdown.appendChild(option.element));
+    this.#options.forEach(option => this.#refs.dropdown.appendChild(option.element));
   }
   
   #filter(term) {
@@ -119,41 +125,35 @@ class CountrySelect {
   }
 
   #select(option) {
-    const hiddenInput = this.#node.querySelector('#country-code');
-
     this.#selected?.setAttribute('aria-selected', 'false');
-    hiddenInput.value = '';
+    this.#refs.hiddenInput.value = '';
 
     this.#selected = option === this.#selected ? null: option;
     if (this.#selected) {
       this.#selected.setAttribute('aria-selected', 'true');
-      hiddenInput.value = option.dataset.countryCode;
+      this.#refs.hiddenInput.value = option.dataset.countryCode;
     }
   }
 
   #openModal() {
-    this.#node.classList.add('select-active');
+    this.#container.classList.add('select-active');
     document.body.classList.add('modal-open');
   }
   
   #closeModal() {
-    this.#node.classList.remove('select-active');
+    this.#container.classList.remove('select-active');
     document.body.classList.remove('modal-open');
   }
-
+  
   #addEventListeners() {
-    const label = this.#node.querySelector('#country-label');
-    const input = this.#node.querySelector('#country-input');
-    const dropdown = this.#node.querySelector('#country-dropdown');
+    const input = this.#refs.input;
     
     input.addEventListener('focus', () => {
-      label.classList.add('label-moved');
       this.#openModal();
     });
 
     input.addEventListener('blur', () => {
       input.textContent = input.textContent.trim();
-      if (!input.textContent) label.classList.remove('label-moved');
     });
 
     input.addEventListener('input', () => {
@@ -161,9 +161,9 @@ class CountrySelect {
       this.#filter(term);
     });
 
-    label.addEventListener('click', () => input.focus());
+    this.#refs.label.addEventListener('click', () => input.focus());
 
-    dropdown.addEventListener('click', (e) => {
+    this.#refs.dropdown.addEventListener('click', (e) => {
       const option = e.target.closest('.dropdown-item');
       if (option) {
         this.#select(option);
@@ -172,9 +172,10 @@ class CountrySelect {
     });
   }
 
-  get node() {
-    return this.#node;
+  get element() {
+    return this.#container;
   }
+
 }
 
 
@@ -226,7 +227,7 @@ class Form {
     const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
     postal.querySelector('input').autocomplete = 'postal-code';
 
-    localization.append(country.node, postal);
+    localization.append(country.element, postal);
 
     return localization;
   }
