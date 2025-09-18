@@ -34,7 +34,6 @@ class CountrySelect {
   #container
   #refs
   #options
-  #selected
 
   constructor() {
     const { container, refs} = CountrySelect.#create();
@@ -125,20 +124,26 @@ class CountrySelect {
     }
   }
   
-  #filter(query) {
+  #filterOptions(query) {
     for (const option of this.#options.values()) {
       const includesQuery = option.name.toLowerCase().includes(query);
       option.element.style.display = includesQuery ? '': 'none';
     }
   }
 
-  #select(option) {
-    this.#selected?.setAttribute('aria-selected', 'false');
-    this.#refs.hiddenInput.value = '';
+  #getSelectedOption() {
+    return this.#options.get(this.#refs.hiddenInput.value)?.element;
+  }
 
-    this.#selected = option === this.#selected ? null: option;
-    if (this.#selected) {
-      this.#selected.setAttribute('aria-selected', 'true');
+  #select(option) {
+    const selectedOpt = this.#getSelectedOption();
+    if (selectedOpt) {
+      selectedOpt.setAttribute('aria-selected', 'false');
+      this.#refs.hiddenInput.value = '';
+    }
+
+    if (option !== selectedOpt) {
+      option.setAttribute('aria-selected', 'true');
       this.#refs.hiddenInput.value = option.dataset.countryCode;
     }
   }
@@ -166,7 +171,7 @@ class CountrySelect {
 
     input.addEventListener('input', () => {
       const term = input.textContent.toLowerCase().trim();
-      this.#filter(term);
+      this.#filterOptions(term);
     });
 
     this.#refs.label.addEventListener('click', () => input.focus());
