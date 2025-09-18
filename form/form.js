@@ -4,7 +4,7 @@ class Input {
 
   static create({ type, id, labelName }) {
     const container = document.createElement('div');
-    container.className = 'form-element';
+    container.className = 'form-field';
 
     const input = document.createElement('input');
     input.type = type;
@@ -40,14 +40,14 @@ class CountrySelect {
     const { container, refs} = CountrySelect.#create();
     this.#container = container;
     this.#refs = refs;
-    this.#options = CountrySelect.#createOptions();
+    this.#options = CountrySelect.#createOptionsMap();
     this.#fillDropdown();
     this.#addEventListeners();
   }
 
   static #create() {
     const container = document.createElement('div');
-    container.className = 'form-element';
+    container.className = 'form-field';
 
     const selectContainer = document.createElement('div');
     selectContainer.className = 'country-select';
@@ -88,9 +88,8 @@ class CountrySelect {
       refs: { input, dropdown, hiddenInput, label}
     };
   }
-  
-  static #createOptions() {
-    return COUNTRIES.map(country => {
+
+  static #createCountryElement(country) {
       const node = document.createElement('div');
       node.className = 'dropdown-item';
       node.setAttribute('role', 'option');
@@ -108,20 +107,29 @@ class CountrySelect {
       span.textContent = country.name;
 
       node.append(img, span);
+      return node;
+  }
 
-      return {...country, element: node};
+  static #createOptionsMap() {
+    const options = new Map();
+    COUNTRIES.forEach(country => {
+      const element = this.#createCountryElement(country);
+      options.set(country.code, {...country, element});
     });
+    return options;
   }
 
   #fillDropdown() {
-    this.#options.forEach(option => this.#refs.dropdown.appendChild(option.element));
+    for (const option of this.#options.values()) {
+      this.#refs.dropdown.appendChild(option.element);
+    }
   }
   
-  #filter(term) {
-    this.#options.forEach(option => {
-      const includesTerm = option.name.toLowerCase().includes(term);
-      option.element.style.display = includesTerm ? '' : 'none';
-    });
+  #filter(query) {
+    for (const option of this.#options.values()) {
+      const includesQuery = option.name.toLowerCase().includes(query);
+      option.element.style.display = includesQuery ? '': 'none';
+    }
   }
 
   #select(option) {
