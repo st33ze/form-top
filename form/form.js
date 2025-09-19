@@ -131,12 +131,12 @@ class CountrySelect {
     }
   }
 
-  #getSelectedOption() {
+  #getSelectedElement() {
     return this.#options.get(this.#refs.hiddenInput.value)?.element;
   }
 
   #select(option) {
-    const selectedOpt = this.#getSelectedOption();
+    const selectedOpt = this.#getSelectedElement();
     if (selectedOpt) {
       selectedOpt.setAttribute('aria-selected', 'false');
       this.#refs.hiddenInput.value = '';
@@ -148,14 +148,34 @@ class CountrySelect {
     }
   }
 
+  #clearInput() {
+    this.#refs.input.innerHTML = '';
+    this.#container.classList.remove('is-filled');
+  }
+
   #openModal() {
+    this.#filterOptions('');
     this.#container.classList.add('select-active');
     document.body.classList.add('modal-open');
+    this.#clearInput();
+  }
+  
+  #fillInput() {
+    this.#refs.input.innerText = '';
+    const copy = this.#getSelectedElement().cloneNode(true);
+    this.#refs.input.append(...copy.children);
+    this.#container.classList.add('is-filled');
+  }
+  
+  #hasOptionSelected() {
+    return this.#options.has(this.#refs.hiddenInput.value);
   }
   
   #closeModal() {
     this.#container.classList.remove('select-active');
     document.body.classList.remove('modal-open');
+
+    if (this.#hasOptionSelected()) this.#fillInput();
   }
   
   #addEventListeners() {
