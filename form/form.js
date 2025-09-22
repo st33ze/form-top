@@ -1,4 +1,16 @@
 import COUNTRIES from './countries/countries.js';
+import icons from './icons.js';
+
+function createIconButton(svg, label) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'icon-btn';
+  btn.setAttribute('aria-label', label);
+
+  btn.innerHTML = svg;
+
+  return btn
+}
 
 class Input {
 
@@ -48,6 +60,9 @@ class CountrySelect {
     const container = document.createElement('div');
     container.className = 'form-field';
 
+    const closeBtn = createIconButton(icons.close, 'Close country selection');
+    closeBtn.classList.add('close-modal-btn');
+
     const selectContainer = document.createElement('div');
     selectContainer.className = 'country-select';
 
@@ -80,11 +95,11 @@ class CountrySelect {
     label.className = 'select-label';
     label.textContent = 'Country';
 
-    container.append(selectContainer, label);
+    container.append(closeBtn, label, selectContainer);
 
     return {
       container,
-      refs: { input, dropdown, hiddenInput, label}
+      refs: { input, dropdown, hiddenInput, label, closeBtn }
     };
   }
 
@@ -212,6 +227,8 @@ class CountrySelect {
         this.#closeModal();
       }
     });
+
+    this.#refs.closeBtn.addEventListener('click', () => this.#closeModal());
   }
 
   get element() {
