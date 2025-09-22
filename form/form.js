@@ -153,11 +153,20 @@ class CountrySelect {
     this.#container.classList.remove('is-filled');
   }
 
+  #scrollToSelected() {
+    if (this.#hasOptionSelected()) {
+      this.#getSelectedElement().scrollIntoView({ block: 'center' });
+    } else {
+      this.#refs.dropdown.scrollTop = 0;
+    }
+  }
+
   #openModal() {
-    this.#filterOptions('');
     this.#container.classList.add('select-active');
     document.body.classList.add('modal-open');
     this.#clearInput();
+    this.#filterOptions('');
+    this.#scrollToSelected();
   }
   
   #fillInput() {
