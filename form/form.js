@@ -1,16 +1,7 @@
 import COUNTRIES from './countries/countries.js';
 import icons from './icons.js';
+import { createIconButton } from './utility.js';
 
-function createIconButton(svg, label) {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'icon-btn';
-  btn.setAttribute('aria-label', label);
-
-  btn.innerHTML = svg;
-
-  return btn
-}
 
 class Input {
 
