@@ -110,7 +110,14 @@ form {
         }
       }
       
-      
+      .password-input {
+        padding-right: 2.5rem;
+
+        &:not(:placeholder-shown) ~ .toggle-password-btn {
+          display: block;
+        }
+      }
+
       .select-label,
       label {
         position: absolute;
@@ -185,6 +192,14 @@ form {
         display: none;
         align-self: flex-end;
         
+      }
+
+      .toggle-password-btn {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
   }

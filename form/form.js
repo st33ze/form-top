@@ -254,16 +254,39 @@ class Form {
     return container;
   }
 
+  static #createPasswordField(id, labelName) {
+    const field = Input.create({ type: 'password', id, labelName });
+    
+    const input = field.querySelector('input');
+    input.classList.add('password-input');
+
+    const button = createIconButton(icons.show, 'Show password');
+    button.classList.add('toggle-password-btn');
+
+    button.addEventListener('click', () => {
+      if (input.type === 'password') {
+        input.type = 'text';
+        button.setAttribute('aria-label', 'Hide password');
+        button.innerHTML = icons.hide;
+      } else {
+        input.type = 'password';
+        button.setAttribute('aria-label', 'Show password');
+        button.innerHTML = icons.show;
+      }
+    });
+
+    field.appendChild(button);
+    return field;
+  }
+
   static #createAuthSection() {
     const auth = document.createElement('div');
     auth.classList.add('auth-section');
     
     auth.append(
       Input.create({ type: 'email' }),
-      Input.create({ type: 'password' }),
-      Input.create({ type: 'password',
-                     id: 'confirm-password',
-                     labelName: 'Confirm Password'})
+      Form.#createPasswordField(),
+      Form.#createPasswordField('confirm-password', 'Confirm password')
     );
 
     return auth;
