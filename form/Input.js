@@ -16,7 +16,7 @@ export default class Input {
     label.htmlFor = input.id;
     label.textContent = labelName || Input.capitalizeFirst(type);
 
-    container.append(input, label);
+    container.append(label, input);
     return container;
   }
 

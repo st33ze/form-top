@@ -36,7 +36,7 @@ class Form {
     input.classList.add('password-input');
 
     const button = createIconButton(icons.show, 'Show password');
-    button.classList.add('toggle-password-btn');
+    button.classList.add('password-toggle');
 
     button.addEventListener('click', () => {
       if (input.type === 'password') {
