@@ -9,6 +9,7 @@ export default class CountrySelect {
   #container
   #refs
   #options
+  #selectedValue
 
   constructor() {
     const { container, refs } = CountrySelect.#create();
@@ -17,7 +18,6 @@ export default class CountrySelect {
     this.#options = CountrySelect.#createOptionsMap();
     
     CountrySelect.#fillDropdown(this.#refs.dropdown, this.#options.values());
-    CountrySelect.#attachDropdownLogic({...refs});
     
     this.#addEventListeners();
   }
@@ -96,23 +96,7 @@ export default class CountrySelect {
       dropdown.appendChild(option.element);
     }
   }
-
-  static #attachDropdownLogic({input, selectedDisplay, dropdown, closeBtn}) {
-    const showDropdown = () => {
-      input.setAttribute('aria-expanded', 'true');
-      selectedDisplay('aria-expanded', 'true');
-    };
-    
-    const hideDropdown = () => {
-      input.setAttribute('aria-expanded', 'false');
-      selectedDisplay('aria-expanded', 'false');
-    };
-
-    input.addEventListener('input', showDropdown);
-
-    closeBtn.addEventListener('click', hideDropdown);
-  }
-
+  
   static #filterOptions(query, options) {
     for (const option of options) {
       const includesQuery = option.name.toLowerCase().includes(query);
@@ -120,9 +104,43 @@ export default class CountrySelect {
     }
   }
 
-  #addEventListeners() {
-    const input = this.#refs.input;
+  #getSelectedElement() {
+    return this.#options.get(this.#selectedValue)?.element;
+  }
 
+  #select(option) {
+    const selected = this.#getSelectedElement();
+    if (option !== selected) {
+      selected?.setAttribute('aria-selected', 'false');
+      this.#selectedValue = option.dataset.countryCode;
+      option.setAttribute('aria-selected', 'true');
+    }
+  }
+  
+  #addEventListeners() {
+    const {input, selectedDisplay, dropdown, closeBtn} = this.#refs;
+    
+    const showDropdown = () => {
+      input.setAttribute('aria-expanded', 'true');
+      selectedDisplay.setAttribute('aria-expanded', 'true');
+    };
+    const hideDropdown = () => {
+      input.setAttribute('aria-expanded', 'false');
+      selectedDisplay.setAttribute('aria-expanded', 'false');
+    };
+    
+    input.addEventListener('input', showDropdown);
+    
+    closeBtn.addEventListener('click', hideDropdown);
+
+    dropdown.addEventListener('click', e => {
+      const option = e.target.closest('.dropdown-item');
+      if (option) {
+        this.#select(option);
+        hideDropdown();
+      }
+    });
+    
     input.addEventListener('input', () => {
       const term = input.value.toLowerCase().trim();
       CountrySelect.#filterOptions(term, this.#options.values());
