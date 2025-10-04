@@ -43,6 +43,7 @@ export default class CountrySelect {
     const input = container.querySelector('input');
     input.className = 'country-input';
     input.role = 'combobox';
+    input.setAttribute('autocomplete', 'new-password');
     input.setAttribute('aria-expanded', 'false');
     input.setAttribute('aria-autocomplete', 'list');
     input.setAttribute('aria-controls', 'country-dropdown');
