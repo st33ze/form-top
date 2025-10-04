@@ -109,15 +109,22 @@ export default class CountrySelect {
     return this.#options.get(this.#selectedValue)?.element;
   }
 
+  #updateSelectedDisplay() {
+    const copy = this.#getSelectedElement().cloneNode(true);
+    this.#refs.selectedDisplay.replaceChildren(...copy.children);
+  }
+
   #select(option) {
     const selected = this.#getSelectedElement();
     if (option !== selected) {
       selected?.setAttribute('aria-selected', 'false');
       this.#selectedValue = option.dataset.countryCode;
       option.setAttribute('aria-selected', 'true');
+
+      this.#updateSelectedDisplay();
     }
   }
-  
+
   #addEventListeners() {
     const {input, selectedDisplay, dropdown, closeBtn} = this.#refs;
     
