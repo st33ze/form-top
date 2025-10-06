@@ -102,7 +102,7 @@ form {
 .form-field input,
 .selected-display {
   width: 250px;
-  height: 36px;
+  min-height: 36px;
   padding-left: 0.5rem;
   color: hsl(var(--clr-text));
   background-color: transparent;
