@@ -58,9 +58,10 @@ form {
     .selected-display { display: flex; }
   }
 
-  &:has(input[aria-expanded="true"]) {
-    input { display: block };
-    .selected-display {display: none;}
+  &:has(input[aria-expanded="true"]),
+  &:has(.selected-display:not(:empty)):has(input[aria-expanded="true"]) {
+    input { display: block; }
+    .selected-display { display: none; }
   }
 
   label {
