@@ -47,7 +47,8 @@ form {
   flex-direction: column;
 
   &:has(input:focus) label,
-  &:has(input:not(:placeholder-shown)) label {
+  &:has(input:not(:placeholder-shown)) label,
+  &:has(.selected-display:not(:empty)) label {
     top: -14px;
     left: 2px;
     font-size: calc(var(--fs-400) - 2px);
@@ -226,7 +227,8 @@ button[type="submit"] {
     background-color: hsl(var(--clr-primary));
     z-index: 10;
 
-    label {
+    label,
+    &:has(.selected-display:not(:empty)) label {
       position: static;
       transform: none;
       transition: none;
