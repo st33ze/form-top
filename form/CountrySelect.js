@@ -130,10 +130,14 @@ export default class CountrySelect {
     const showDropdown = () => {
       input.setAttribute('aria-expanded', 'true');
       selectedDisplay.setAttribute('aria-expanded', 'true');
+
+      input.focus();
     };
     const hideDropdown = () => {
       input.setAttribute('aria-expanded', 'false');
       selectedDisplay.setAttribute('aria-expanded', 'false');
+
+      if (selectedDisplay.children.length > 0) selectedDisplay.focus();
     };
     
     input.addEventListener('input', showDropdown);
