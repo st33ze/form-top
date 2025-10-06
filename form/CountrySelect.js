@@ -32,10 +32,9 @@ export default class CountrySelect {
     const closeBtn = createIconButton(icons.close, 'Close country selection');
     closeBtn.classList.add('close-modal-btn');
 
-    const selectedDisplay = document.createElement('div');
+    const selectedDisplay = document.createElement('button');
     selectedDisplay.className = 'selected-display';
-    selectedDisplay.role = 'button';
-    selectedDisplay.tabIndex = 0;
+    selectedDisplay.type = 'button';
     selectedDisplay.setAttribute('aria-haspopup', 'listbox');
     selectedDisplay.setAttribute('aria-expanded', 'false');
     
@@ -138,6 +137,7 @@ export default class CountrySelect {
     };
     
     input.addEventListener('input', showDropdown);
+    selectedDisplay.addEventListener('click', showDropdown);
     
     closeBtn.addEventListener('click', hideDropdown);
 
