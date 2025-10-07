@@ -133,6 +133,7 @@ export default class CountrySelect {
 
       input.focus();
     };
+
     const hideDropdown = () => {
       input.setAttribute('aria-expanded', 'false');
       selectedDisplay.setAttribute('aria-expanded', 'false');
@@ -140,7 +141,11 @@ export default class CountrySelect {
       if (selectedDisplay.children.length > 0) selectedDisplay.focus();
     };
     
-    input.addEventListener('input', showDropdown);
+    const isExpanded = () => input.getAttribute('aria-expanded') === 'true';
+
+    input.addEventListener('input', () => {
+      if (!isExpanded()) showDropdown();
+    });
     selectedDisplay.addEventListener('click', showDropdown);
     
     closeBtn.addEventListener('click', hideDropdown);
