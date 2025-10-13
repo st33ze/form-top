@@ -151,8 +151,11 @@ export default class CountrySelect {
       if (!isExpanded()) showDropdown();
     });
     selectedDisplay.addEventListener('click', showDropdown);
-    
+
     closeBtn.addEventListener('click', hideDropdown);
+    this.#container.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && isExpanded()) hideDropdown();
+    });
 
     dropdown.addEventListener('click', e => {
       const option = e.target.closest('.dropdown-item');
