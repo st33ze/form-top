@@ -75,7 +75,7 @@ form {
   }
 
   input {
-    &[type="password"] {
+    &.password-input {
       padding-right: 2.5rem;
       
       &:not(:placeholder-shown) ~ .password-toggle {
