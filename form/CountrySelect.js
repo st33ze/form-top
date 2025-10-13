@@ -32,11 +32,15 @@ export default class CountrySelect {
     const closeBtn = createIconButton(icons.close, 'Close country selection');
     closeBtn.classList.add('close-modal-btn');
 
+    const label = container.querySelector('label');
+    label.id = 'country-label';
+
     const selectedDisplay = document.createElement('button');
     selectedDisplay.className = 'selected-display';
     selectedDisplay.type = 'button';
     selectedDisplay.setAttribute('aria-haspopup', 'listbox');
     selectedDisplay.setAttribute('aria-expanded', 'false');
+    selectedDisplay.setAttribute('aria-labelledby', label.id);
     
 
     const input = container.querySelector('input');
