@@ -148,7 +148,8 @@ export default class CountrySelect {
       input.setAttribute('aria-expanded', 'false');
       selectedDisplay.setAttribute('aria-expanded', 'false');
 
-      if (selectedDisplay.children.length > 0) selectedDisplay.focus();
+      const focusTarget = this.#getSelectedElement() ? selectedDisplay: input;
+      focusTarget.focus();
     };
     
     const isExpanded = () => input.getAttribute('aria-expanded') === 'true';
