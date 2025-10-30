@@ -135,6 +135,12 @@ export default class CountrySelect {
       input.setAttribute('aria-expanded', 'true');
       selectedDisplay.setAttribute('aria-expanded', 'true');
 
+      const selected = this.#getSelectedElement();
+      if (selected) {
+        selected.scrollIntoView({ block:'center', behavior: 'instant'});
+        selected.setAttribute('tabindex', '0');
+      }
+
       input.focus();
     };
 
