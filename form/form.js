@@ -1,6 +1,6 @@
 import icons from './icons.js';
 import { createIconButton } from './utility.js';
-import CountrySelect from './CountrySelect.js';
+import CountrySelect from './Select.js';
 import Input from './Input.js';
 
 
@@ -71,11 +71,12 @@ class Form {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
 
-    const country = new CountrySelect();
+    const country = CountrySelect.create();
+
     const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
     postal.querySelector('input').autocomplete = 'postal-code';
 
-    localization.append(country.element, postal);
+    localization.append(country, postal);
 
     return localization;
   }
