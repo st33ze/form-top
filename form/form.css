@@ -44,27 +44,15 @@ form {
 .form-field {
   position: relative;
   display: flex;
-  flex-direction: column;
 
   &:has(input:focus) label,
-  &:has(input:not(:placeholder-shown)) label,
-  &:has(.selected-display:not(:empty)) label {
+  &:has(input:not(:placeholder-shown)) label {
     top: -14px;
     left: 2px;
     font-size: calc(var(--fs-400) - 2px);
   }
 
   &:has(input:focus) label { transition: 0.2s ease all; }
-
-  &:has(.selected-display:not(:empty)):not(:has(input[aria-expanded="true"])) {
-    input { display: none; }
-    .selected-display { display: flex; }
-  }
-
-  &:has(input[aria-expanded="true"]) {
-    input { display: block; }
-    .selected-display { display: none; }
-  }
 
   label {
     position: absolute;
@@ -93,15 +81,10 @@ form {
       }
     }
   }
-  
-  .close-modal-btn {
-    display: none;
-    align-self: flex-end;
-  }
 }
 
 .form-field input,
-.selected-display {
+.form-field .select__trigger {
   width: 250px;
   min-height: 36px;
   padding-left: 0.5rem;
@@ -121,10 +104,20 @@ form {
   }
 }
 
-.selected-display {
-  display: none;
+svg {
+  width: 24px;
+  height: 24px;
+  fill: hsl(var(--clr-subtext));
+}
+
+.select__trigger {
+  display: flex;
+  justify-content: end;
   align-items: center;
-  gap: 0.5rem;
+
+  .select__arrow {
+    color: hsl(var(--clr-subtext));
+  }
 }
 
 .icon-btn {
@@ -136,12 +129,6 @@ form {
   border-radius: 8px;
   background-color: transparent;
   cursor: pointer;
-
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: hsl(var(--clr-subtext));
-  }
 }
 
 .password-toggle {
@@ -150,29 +137,6 @@ form {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.dropdown {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-top: 0.5rem;
-  overflow-y: auto;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 250px;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  color: hsl(var(--clr-subtext));
-  
-  &[aria-selected="true"] {
-    background-color: hsl(var(--clr-subtext));
-    color: hsl(var(--clr-primary));
-  }
 }
 
 .flag {
@@ -208,38 +172,6 @@ button[type="submit"] {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
     border-color: hsl(var(--clr-secondary));
-  }
-}
-
-@media (max-width: 650px) {
-  body:has(input[aria-expanded="true"]) {overflow: hidden;}
-  
-  .form-field:has(input[aria-expanded="true"]) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100dvh;
-    padding: 0.5rem 1rem;
-    background-color: hsl(var(--clr-primary));
-    z-index: 10;
-
-    label,
-    &:has(.selected-display:not(:empty)) label {
-      position: static;
-      transform: none;
-      transition: none;
-      font-size: 1rem;
-    }
-
-    .dropdown { display: flex; }
-    
-    .flag {
-      width: 24px;
-      height: 20px;
-    }
-    
-    .close-modal-btn { display: block; }
   }
 }
 
