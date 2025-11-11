@@ -109,6 +109,7 @@ export default class CountrySelect {
         value: code,
         textContent: name
       });
+      select.append(option);
     });
 
     return select;
