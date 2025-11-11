@@ -10,7 +10,7 @@ export default class CountrySelect {
 
     const label = Object.assign(document.createElement('label'), {
       id: 'country-label',
-      htmlFor: 'country-native', // Implement hidden native select for val holding
+      htmlFor: 'country-native',
       textContent: 'Country'
     });
     const select = CountrySelect.#createSelect();
@@ -29,7 +29,8 @@ export default class CountrySelect {
 
     select.append(
       CountrySelect.#createTrigger(),
-      CountrySelect.#createDropdown()
+      CountrySelect.#createDropdown(),
+      CountrySelect.#createNativeSelect()
     );
 
     return select;
@@ -84,6 +85,33 @@ export default class CountrySelect {
     });
 
     return list;
+  }
+
+  static #createNativeSelect() {
+    const select = Object.assign(document.createElement('select'), {
+      id: 'country-native',
+      name: 'country',
+      autocomplete: 'country',
+      hidden: true
+    });
+
+    const placeholder = Object.assign(document.createElement('option'), {
+      value: '',
+      textContent: 'Select a country',
+      disabled: true,
+      selected: true,
+      hidden: true
+    });
+    select.append(placeholder);
+
+    COUNTRIES.forEach(({ code, name}) => {
+      const option = Object.assign(document.createElement('option'), {
+        value: code,
+        textContent: name
+      });
+    });
+
+    return select;
   }
 
 }
