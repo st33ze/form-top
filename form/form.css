@@ -46,7 +46,8 @@ form {
   display: flex;
 
   &:has(input:focus) label,
-  &:has(input:not(:placeholder-shown)) label {
+  &:has(input:not(:placeholder-shown)) label,
+  &:has(select option:checked:not([value=""])) label {
     top: -14px;
     left: 2px;
     font-size: calc(var(--fs-400) - 2px);
@@ -84,7 +85,8 @@ form {
 }
 
 .form-field input,
-.form-field .select__trigger {
+.form-field .select__trigger,
+.select select {
   width: 250px;
   min-height: 36px;
   padding-left: 0.5rem;
@@ -110,16 +112,6 @@ svg {
   fill: hsl(var(--clr-subtext));
 }
 
-.select__trigger {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-
-  .select__arrow {
-    color: hsl(var(--clr-subtext));
-  }
-}
-
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -137,6 +129,23 @@ svg {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.select__arrow {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--clr-subtext));
+  pointer-events: none;
+}
+
+.form-field:has(.select) label {pointer-events: none;}
+
+.select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .flag {
