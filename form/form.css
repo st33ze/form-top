@@ -54,6 +54,7 @@ form {
   }
 
   &:has(input:focus) label { transition: 0.2s ease all; }
+  &:has(select) label {pointer-events: none;}
 
   label {
     position: absolute;
@@ -82,11 +83,18 @@ form {
       }
     }
   }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
 }
 
+.custom-select {display: none;}
+
 .form-field input,
-.form-field .select__trigger,
-.select select {
+.form-field select {
   width: 250px;
   min-height: 36px;
   padding-left: 0.5rem;
@@ -138,14 +146,6 @@ svg {
   transform: translateY(-50%);
   color: hsl(var(--clr-subtext));
   pointer-events: none;
-}
-
-.form-field:has(.select) label {pointer-events: none;}
-
-.select select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 .flag {
@@ -215,5 +215,12 @@ button[type="submit"] {
     button[type="submit"] {
       margin-bottom: 2rem;
     }
+  }
+}
+
+@media (pointer: fine) {
+  .form-field {
+    select {display: none;}
+    .custom-select {display: block;}
   }
 }
