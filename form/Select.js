@@ -76,8 +76,14 @@ export default class CountrySelect {
       select.setAttribute('aria-expanded', 'true');
     };
 
+    const close = () => {
+      dropdown.hidden = true;
+      select.setAttribute('aria-expanded', 'false');
+    };
+
     trigger.addEventListener('click', () => {
       if (dropdown.hidden) open();
+      else close();
     });
 
     return select;
