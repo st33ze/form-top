@@ -91,10 +91,42 @@ form {
   }
 }
 
-.custom-select {display: none;}
+.custom-select {
+  display: none;
+
+  button {
+    cursor: pointer;
+  }
+
+  ul {
+    position: absolute;
+    left: 0;
+    top: 110%;
+    width: 250px;
+    max-height: min(170px, 50vh);
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    z-index: 10;
+    background-color: hsl(var(--clr-primary));
+    border: 1px solid hsl(var(--clr-accent));
+    border-radius: 0.5rem;
+    
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--clr-subtext)) transparent;
+  }
+
+  li {
+    display: flex;
+    gap: 0.5rem;
+    padding-block: 0.25rem;
+  }
+}
 
 .form-field input,
-.form-field select {
+.form-field select,
+.custom-select button {
   width: 250px;
   min-height: 36px;
   padding-left: 0.5rem;
@@ -221,6 +253,6 @@ button[type="submit"] {
 @media (pointer: fine) {
   .form-field {
     select {display: none;}
-    .custom-select {display: block;}
+    .custom-select {display: flex;}
   }
 }
