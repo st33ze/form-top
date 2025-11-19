@@ -70,6 +70,16 @@ export default class CountrySelect {
     const dropdown = CountrySelect.#createDropdown();
 
     select.append(trigger, dropdown);
+
+    const open = () => {
+      dropdown.hidden = false;
+      select.setAttribute('aria-expanded', 'true');
+    };
+
+    trigger.addEventListener('click', () => {
+      if (dropdown.hidden) open();
+    });
+
     return select;
   }
 
