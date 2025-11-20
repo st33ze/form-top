@@ -85,6 +85,13 @@ export default class CountrySelect {
       if (dropdown.hidden) open();
       else close();
     });
+    trigger.addEventListener('keydown', e => {
+      const openKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Spacebar', ' '];
+      if (!dropdown.hidden || !openKeys.includes(e.key)) return;
+
+      e.preventDefault();
+      open();
+    });
 
     return select;
   }
