@@ -24,6 +24,9 @@ export default class CountrySelect {
     const custom = CountrySelect.#createCustomSelect();
 
     container.append(label, arrow, native, custom);
+
+    CountrySelect.#attachCustomListeners(container);
+
     return container;
   }
 
@@ -70,29 +73,6 @@ export default class CountrySelect {
     const dropdown = CountrySelect.#createDropdown();
 
     select.append(trigger, dropdown);
-
-    const open = () => {
-      dropdown.hidden = false;
-      select.setAttribute('aria-expanded', 'true');
-    };
-
-    const close = () => {
-      dropdown.hidden = true;
-      select.setAttribute('aria-expanded', 'false');
-    };
-
-    trigger.addEventListener('click', () => {
-      if (dropdown.hidden) open();
-      else close();
-    });
-    trigger.addEventListener('keydown', e => {
-      const openKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Spacebar', ' '];
-      if (!dropdown.hidden || !openKeys.includes(e.key)) return;
-
-      e.preventDefault();
-      open();
-    });
-
     return select;
   }
 
@@ -125,6 +105,35 @@ export default class CountrySelect {
     });
 
     return list;
+  }
+
+  static #attachCustomListeners(container) {
+    const custom = container.querySelector('.custom-select');
+    const trigger = custom.querySelector('.custom-select__trigger');
+    const dropdown = custom.querySelector('.custom-select__options');
+
+    const open = () => {
+      dropdown.hidden = false;
+      custom.setAttribute('aria-expanded', 'true');
+    };
+
+    const close = () => {
+      dropdown.hidden = true;
+      custom.setAttribute('aria-expanded', 'false');
+    };
+
+    trigger.addEventListener('click', () => {
+      if (dropdown.hidden) open();
+      else close();
+    });
+    
+    trigger.addEventListener('keydown', e => {
+      const openKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Spacebar', ' '];
+      if (!dropdown.hidden || !openKeys.includes(e.key)) return;
+
+      e.preventDefault();
+      open();
+    });
   }
 
 }
