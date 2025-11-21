@@ -111,6 +111,7 @@ export default class CountrySelect {
     const custom = container.querySelector('.custom-select');
     const trigger = custom.querySelector('.custom-select__trigger');
     const dropdown = custom.querySelector('.custom-select__options');
+    const native = container.querySelector('#country-native');
 
     const open = () => {
       dropdown.hidden = false;
@@ -133,6 +134,22 @@ export default class CountrySelect {
 
       e.preventDefault();
       open();
+    });
+
+    dropdown.addEventListener('click', e => {
+      const option = e.target.closest('li[role="option"');
+      const selected = dropdown.querySelector('[aria-selected="true"]');
+
+      if (option && option !== selected) {
+        selected?.setAttribute('aria-selected', 'false');
+        selected?.classList.remove('selected');
+        option.setAttribute('aria-selected', 'true');
+        option.classList.add('selected');
+
+        native.value = option.dataset.value;
+      }
+
+      close();
     });
   }
 
