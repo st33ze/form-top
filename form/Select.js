@@ -116,6 +116,10 @@ export default class CountrySelect {
     const open = () => {
       dropdown.hidden = false;
       custom.setAttribute('aria-expanded', 'true');
+
+      const selected = dropdown.querySelector('[aria-selected="true"]');
+      const first = dropdown.querySelector('li');
+      (selected || first)?.focus();
     };
 
     const close = () => {
