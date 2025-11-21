@@ -123,6 +123,11 @@ export default class CountrySelect {
       custom.setAttribute('aria-expanded', 'false');
     };
 
+    custom.addEventListener('focusout', e => {
+      if (!e.relatedTarget || !custom.contains(e.relatedTarget))
+        close();
+    });
+
     trigger.addEventListener('click', () => {
       if (dropdown.hidden) open();
       else close();
