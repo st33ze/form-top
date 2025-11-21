@@ -160,6 +160,19 @@ export default class CountrySelect {
 
       close();
     });
+
+    dropdown.addEventListener('keydown', e => {
+      if (e.key === 'Tab' && e.shiftKey) {
+        e.preventDefault();
+        close();
+        trigger.focus();
+      }
+
+      if (e.key === 'Escape') {
+        close();
+        trigger.focus();
+      }
+    });
   }
 
 }
