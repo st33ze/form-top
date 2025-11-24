@@ -134,7 +134,7 @@ form {
 
 .form-field input,
 .form-field select,
-.custom-select button {
+.custom-select__trigger {
   width: 250px;
   min-height: 36px;
   padding-left: 0.5rem;
@@ -152,6 +152,12 @@ form {
     border-color: hsl(var(--clr-secondary));
     box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
   }
+}
+
+.custom-select__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 svg {
