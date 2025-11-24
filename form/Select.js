@@ -176,6 +176,28 @@ export default class CountrySelect {
         close();
         trigger.focus();
       }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+
+        const next = document.activeElement.nextElementSibling;
+        const first = dropdown.querySelector('li');
+
+        const target = next || first;
+        target?.focus();
+        target?.scrollIntoView({ block: 'center' });
+      }
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+
+        const prev = document.activeElement.previousElementSibling;
+        const last = dropdown.querySelector('li:last-child');
+
+        const target = prev || last;
+        target?.focus();
+        target?.scrollIntoView({ block: 'center' });
+      }
     });
   }
 
