@@ -156,6 +156,10 @@ export default class CountrySelect {
         option.classList.add('selected');
 
         native.value = option.dataset.value;
+
+        const clone = option.cloneNode(true);
+        trigger.innerHTML = '';
+        trigger.append(...clone.children);
       }
 
       close();
