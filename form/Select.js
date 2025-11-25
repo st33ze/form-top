@@ -127,6 +127,23 @@ export default class CountrySelect {
       custom.setAttribute('aria-expanded', 'false');
     };
 
+    const select = option => {
+      const selected = dropdown.querySelector('[aria-selected="true"]');
+
+      if (option && option !== selected) {
+        selected?.setAttribute('aria-selected', 'false');
+        selected?.classList.remove('selected');
+        option.setAttribute('aria-selected', 'true');
+        option.classList.add('selected');
+
+        native.value = option.dataset.value;
+
+        const clone = option.cloneNode(true);
+        trigger.innerHTML = '';
+        trigger.append(...clone.children);
+      }
+    };
+
     custom.addEventListener('focusout', e => {
       if (!e.relatedTarget || !custom.contains(e.relatedTarget))
         close();
@@ -147,21 +164,7 @@ export default class CountrySelect {
 
     dropdown.addEventListener('click', e => {
       const option = e.target.closest('li[role="option"');
-      const selected = dropdown.querySelector('[aria-selected="true"]');
-
-      if (option && option !== selected) {
-        selected?.setAttribute('aria-selected', 'false');
-        selected?.classList.remove('selected');
-        option.setAttribute('aria-selected', 'true');
-        option.classList.add('selected');
-
-        native.value = option.dataset.value;
-
-        const clone = option.cloneNode(true);
-        trigger.innerHTML = '';
-        trigger.append(...clone.children);
-      }
-
+      select(option);
       close();
     });
 
