@@ -169,37 +169,43 @@ export default class CountrySelect {
     });
 
     dropdown.addEventListener('keydown', e => {
-      if (e.key === 'Tab' && e.shiftKey) {
-        e.preventDefault();
-        close();
-        trigger.focus();
-      }
+      switch (e.key) {
+        case 'Tab':
+          if (e.shiftKey) {
+            e.preventDefault();
+            close();
+            trigger.focus();
+          }
+          break;
 
-      if (e.key === 'Escape') {
-        close();
-        trigger.focus();
-      }
+        case 'Escape':
+          e.preventDefault();
+          close();
+          trigger.focus();
+          break;
 
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
+        case 'ArrowDown':
+          e.preventDefault();
+          const next = document.activeElement.nextElementSibling || dropdown.querySelector('[role="option"]');
+          next?.focus();
+          next?.scrollIntoView({ block: 'center' });
+          break;
 
-        const next = document.activeElement.nextElementSibling;
-        const first = dropdown.querySelector('li');
+        case 'ArrowUp':
+          e.preventDefault();
+          const prev = document.activeElement.previousElementSibling || dropdown.querySelector('li:last-child');
+          prev?.focus();
+          prev?.scrollIntoView({ block: 'center' });
+          break;
 
-        const target = next || first;
-        target?.focus();
-        target?.scrollIntoView({ block: 'center' });
-      }
-
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-
-        const prev = document.activeElement.previousElementSibling;
-        const last = dropdown.querySelector('li:last-child');
-
-        const target = prev || last;
-        target?.focus();
-        target?.scrollIntoView({ block: 'center' });
+        case 'Enter':
+        case ' ':
+        case 'Spacebar':
+          e.preventDefault();
+          select(document.activeElement);
+          close();
+          trigger.focus();
+          break;
       }
     });
   }
