@@ -59,16 +59,14 @@ export default class CountrySelect {
   static #createCustomSelect() {
     const select = document.createElement('div');
     select.className = 'custom-select';
-    select.role = 'combobox';
-    select.setAttribute('role', 'combobox');
-    select.setAttribute('aria-expanded', 'false');
-    select.setAttribute('aria-haspopup', 'listbox');
-    select.setAttribute('aria-labelledby', 'country-label');
 
     const trigger = document.createElement('button');
     trigger.className = 'custom-select__trigger';
     trigger.type = 'button';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
     trigger.setAttribute('aria-controls', 'country-listbox');
+    trigger.setAttribute('aria-labelledby', 'country-label');
 
     const dropdown = CountrySelect.#createDropdown();
 
@@ -115,7 +113,7 @@ export default class CountrySelect {
 
     const open = () => {
       dropdown.hidden = false;
-      custom.setAttribute('aria-expanded', 'true');
+      trigger.setAttribute('aria-expanded', 'true');
 
       const selected = dropdown.querySelector('[aria-selected="true"]');
       const first = dropdown.querySelector('li');
@@ -124,7 +122,7 @@ export default class CountrySelect {
 
     const close = () => {
       dropdown.hidden = true;
-      custom.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-expanded', 'false');
     };
 
     const select = option => {
