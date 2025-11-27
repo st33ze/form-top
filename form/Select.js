@@ -190,7 +190,7 @@ export default class CountrySelect {
     });
 
     dropdown.addEventListener('click', e => {
-      const option = e.target.closest('li[role="option"');
+      const option = e.target.closest('li[role="option"]');
       select(option);
       close();
     });
