@@ -144,6 +144,33 @@ export default class CountrySelect {
       }
     };
 
+    let typeBuffer = '';
+    let typeBufferTimeout;
+
+    const resetTypeBuffer = () => {
+      typeBuffer = '';
+      clearTimeout(typeBufferTimeout);
+    }
+
+    const handleTypeahead = char => {
+      typeBuffer += char;
+
+      clearTimeout(typeBufferTimeout);
+      typeBufferTimeout = setTimeout(resetTypeBuffer, 400);
+
+      const options = [...dropdown.querySelectorAll('[role="option"]')];
+
+      const match = options.find(o => {
+        const name = o.querySelector('.country-name').textContent;
+        return name.toLowerCase().startsWith(typeBuffer);
+      });
+
+      if (match) {
+        match.focus();
+        match.scrollIntoView({ block: 'center' });
+      }
+    }
+
     custom.addEventListener('focusout', e => {
       if (!e.relatedTarget || !custom.contains(e.relatedTarget))
         close();
@@ -206,6 +233,10 @@ export default class CountrySelect {
           close();
           trigger.focus();
           break;
+      }
+
+      if (e.key.length === 1 && /^[a-z]$/i.test(e.key)) {
+        handleTypeahead(e.key.toLowerCase());
       }
     });
   }
