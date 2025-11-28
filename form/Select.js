@@ -89,8 +89,10 @@ export default class CountrySelect {
 
       const img = Object.assign(document.createElement('img'), {
         className: 'country-flag',
-        src: `form/countries/flags/${code}.svg`,
-        alt: ''
+        src: `/form/countries/flags/${code}.svg`,
+        alt: '',
+        loading: 'lazy',
+        ariaHidden: 'true'
       });
 
       const span = Object.assign(document.createElement('span'), {
