@@ -180,10 +180,10 @@ export default class CountrySelect {
       if (dropdown.hidden) open();
       else close();
     });
-    
+
     trigger.addEventListener('keydown', e => {
-      const openKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Spacebar', ' '];
-      if (!dropdown.hidden || !openKeys.includes(e.key)) return;
+      const openCodes = ['ArrowUp', 'ArrowDown', 'Enter', 'Space'];
+      if (!dropdown.hidden || !openCodes.includes(e.code)) return;
 
       e.preventDefault();
       open();
@@ -227,7 +227,6 @@ export default class CountrySelect {
 
         case 'Enter':
         case ' ':
-        case 'Spacebar':
           e.preventDefault();
           select(document.activeElement);
           close();
