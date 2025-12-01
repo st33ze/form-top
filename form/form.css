@@ -55,6 +55,7 @@ form {
 
   &:has(input:focus) label { transition: 0.2s ease all; }
   &:has(select) label {pointer-events: none;}
+  &:has([required]) label::after {content: " *"};
 
   label {
     position: absolute;

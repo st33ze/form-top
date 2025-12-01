@@ -30,7 +30,7 @@ class Form {
   }
 
   static #createPasswordField(id, labelName) {
-    const field = Input.create({ type: 'password', id, labelName });
+    const field = Input.create({ type: 'password', id, labelName, required: true });
     
     const input = field.querySelector('input');
     input.classList.add('password-input');
@@ -59,7 +59,7 @@ class Form {
     auth.classList.add('auth-section');
     
     auth.append(
-      Input.create({ type: 'email' }),
+      Input.create({ type: 'email', required: true }),
       Form.#createPasswordField(),
       Form.#createPasswordField('confirm-password', 'Confirm password')
     );
@@ -71,7 +71,7 @@ class Form {
     const localization = document.createElement('div');
     localization.classList.add('localization-section');
 
-    const country = CountrySelect.create();
+    const country = CountrySelect.create({ required: true });
 
     const postal = Input.create({ type: 'text', id: 'postal', labelName: 'Postal Code' });
     postal.querySelector('input').autocomplete = 'postal-code';

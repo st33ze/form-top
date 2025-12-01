@@ -1,6 +1,6 @@
 export default class Input {
 
-  static create({ type, id, labelName }) {
+  static create({ type, id, labelName, required }) {
     const container = document.createElement('div');
     container.className = 'form-field';
 
@@ -11,6 +11,7 @@ export default class Input {
     input.autocorrect = 'off';
     input.autocapitalize = 'none';
     input.spellcheck = 'false';
+    if (required) input.setAttribute('required', '');
 
     const label = document.createElement('label');
     label.htmlFor = input.id;

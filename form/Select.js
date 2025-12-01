@@ -3,7 +3,7 @@ import COUNTRIES from "./countries/countries.js";
 
 export default class CountrySelect {
 
-  static create() {
+  static create({ required = false }) {
     const container = Object.assign(document.createElement('div'), {
       className: 'form-field'
     });
@@ -20,6 +20,7 @@ export default class CountrySelect {
     arrow.setAttribute('aria-hidden', 'true');
 
     const native = CountrySelect.#createNativeSelect();
+    if (required) native.setAttribute('required', '');
 
     const custom = CountrySelect.#createCustomSelect();
 
