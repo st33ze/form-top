@@ -17,7 +17,12 @@ export default class Input {
     label.htmlFor = input.id;
     label.textContent = labelName || Input.capitalizeFirst(type);
 
-    container.append(label, input);
+    const error = document.createElement('p');
+    error.className = 'form-error';
+    error.hidden = true;
+    error.setAttribute('aria-live', 'polite');
+
+    container.append(label, input, error);
     return container;
   }
 
