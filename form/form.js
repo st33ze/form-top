@@ -34,7 +34,7 @@ class Form {
       type: 'password', 
       id, 
       labelName,
-      attrs: { 'required': '' }
+      attrs: {'required': '', 'autocomplete': 'new-password' }
     });
     
     const input = field.querySelector('input');
@@ -64,7 +64,7 @@ class Form {
     auth.classList.add('auth-section');
     
     auth.append(
-      Input.create({ type: 'email', attrs: { 'required': '' } }),
+      Input.create({ type: 'email', attrs: { 'required': '', 'autocomplete': 'email' } }),
       Form.#createPasswordField(),
       Form.#createPasswordField('confirm-password', 'Confirm password')
     );
