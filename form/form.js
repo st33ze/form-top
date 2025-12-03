@@ -16,6 +16,8 @@ class Form {
       Form.#createSubmitBtn(),
     );
 
+    this.#attachValidators(form);
+
     return form;
   }
 
@@ -101,6 +103,21 @@ class Form {
     });
 
     return button;
+  }
+
+  static #attachValidators(form) {
+    const email = form.querySelector('#email');
+
+    const validate = (input, validator) => {
+      const errorElement = email.closest('.form-field').querySelector('.form-error');
+      let error = null;
+
+      if (input.value.trim() === '') error = 'Field required';
+
+      errorElement.textContent = error || '';
+      errorElement.hidden = error ? false: true;
+      input.setAttribute('aria-invalid', !errorElement.hidden);
+    }
   }
 
 }
