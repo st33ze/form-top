@@ -108,16 +108,23 @@ class Form {
   static #attachValidators(form) {
     const validate = (input, validator) => {
       const errorElement = input.closest('.form-field').querySelector('.form-error');
-      let error = null;
-      
-      if (input.value.trim() === '') error = 'Field required';
-      
-      errorElement.textContent = error || '';
-      errorElement.hidden = error ? false: true;
-      input.setAttribute('aria-invalid', !errorElement.hidden);
-      input.dataset.dirty = !errorElement.hidden;
+      let error = '';
+
+      if (input.hasAttribute('required') && input.value.trim() === '') {
+        error = 'Field required';
+      } else if (validator) {
+        error = validator(input) || '';
+      }
+
+      errorElement.textContent = error;
+      errorElement.hidden = !error;
+
+      if (error) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+
+      input.dataset.dirty = error ? 'true': 'false';
     }
-    
+
     const email = form.querySelector('#email');
     email.addEventListener('blur', () => validate(email));
     email.addEventListener('input', () => {
