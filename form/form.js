@@ -115,10 +115,14 @@ class Form {
       errorElement.textContent = error || '';
       errorElement.hidden = error ? false: true;
       input.setAttribute('aria-invalid', !errorElement.hidden);
+      input.dataset.dirty = !errorElement.hidden;
     }
     
     const email = form.querySelector('#email');
     email.addEventListener('blur', () => validate(email));
+    email.addEventListener('input', () => {
+      if (email.dataset.dirty === 'true') validate(email);
+    });
 
   }
 
