@@ -106,18 +106,20 @@ class Form {
   }
 
   static #attachValidators(form) {
-    const email = form.querySelector('#email');
-
     const validate = (input, validator) => {
-      const errorElement = email.closest('.form-field').querySelector('.form-error');
+      const errorElement = input.closest('.form-field').querySelector('.form-error');
       let error = null;
-
+      
       if (input.value.trim() === '') error = 'Field required';
-
+      
       errorElement.textContent = error || '';
       errorElement.hidden = error ? false: true;
       input.setAttribute('aria-invalid', !errorElement.hidden);
     }
+    
+    const email = form.querySelector('#email');
+    email.addEventListener('blur', () => validate(email));
+
   }
 
 }
