@@ -84,6 +84,10 @@ form {
         color: hsl(var(--clr-text));
       }
     }
+
+    &[data-dirty="true"] {
+      border-color: hsl(var(--clr-warning));
+    }
   }
 
   select {
