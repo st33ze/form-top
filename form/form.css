@@ -85,7 +85,7 @@ form {
       }
     }
 
-    &[data-dirty="true"] {
+    &[aria-invalid="true"] {
       border-color: hsl(var(--clr-warning));
     }
   }
