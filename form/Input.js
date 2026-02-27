@@ -18,7 +18,7 @@ export default class Input {
 
     const label = document.createElement('label');
     label.htmlFor = input.id;
-    label.textContent = labelName || Input.capitalizeFirst(type);
+    label.textContent = labelName || Input.#capitalizeFirst(type);
 
     const error = document.createElement('p');
     error.className = 'form-error';
@@ -29,8 +29,26 @@ export default class Input {
     return container;
   }
 
-  static capitalizeFirst(str) {
+  static #capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  static validate(input, error = '') {
+    const field = input.closest('.form-field');
+    const errorElement = field?.querySelector('.form-error');
+
+    if (input.required && !input.value.trim()) {
+      error = 'Field required';
+    }
+
+    if (errorElement) {
+      errorElement.textContent = error;
+      errorElement.hidden = !error;
+    }
+
+    input.ariaInvalid = error ? 'true': null;
+    
+    return !error;
   }
 
 }
