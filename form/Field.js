@@ -45,4 +45,8 @@ export default class Field {
   static #capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
+  get node() {
+    return this.#container;
+  }
 }
