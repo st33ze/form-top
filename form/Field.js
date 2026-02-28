@@ -46,6 +46,10 @@ export default class Field {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  get input() {
+    return this.#input;
+  }
+
   get node() {
     return this.#container;
   }
