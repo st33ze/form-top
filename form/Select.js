@@ -1,42 +1,56 @@
+import Field from "./Field.js";
 import icons from "./icons.js";
-import COUNTRIES from "./countries/countries.js";
 
-export default class CountrySelect {
+export default class Select {
+  #field;
+  #native;
+  #custom;
+  #trigger;
+  #dropdown;
 
-  static create({ required = false }) {
-    const container = Object.assign(document.createElement('div'), {
-      className: 'form-field'
-    });
+  #optionsMap = new Map();
+  #optionsArray = [];
+  #selectedOption = null;
+  #open = false;
+  #typeBuffer = '';
+  #typeBufferTimeout;
+  
+  #renderOptions;
 
-    const label = Object.assign(document.createElement('label'), {
-      id: 'country-label',
-      htmlFor: 'country-native',
-      textContent: 'Country'
-    });
+  constructor({ id, name, labelName, attrs, renderOptions }) {
+    const label = document.createElement('label');
+    label.id = `${id}-label`;
+    label.htmlFor = `${id}-native`;
+    label.textContent = labelName;
 
     const arrow = document.createElement('span');
     arrow.className = 'select__arrow';
     arrow.innerHTML = icons.arrow;
     arrow.setAttribute('aria-hidden', 'true');
 
-    const native = CountrySelect.#createNativeSelect();
-    if (required) native.setAttribute('required', '');
+    this.#native = Select.#createNativeSelect(id, name, attrs);
 
-    const custom = CountrySelect.#createCustomSelect();
+    this.#custom = Select.#createCustomSelect(id);
+    this.#trigger = this.#custom.querySelector('button');
+    this.#dropdown = this.#custom.querySelector('ul');
 
-    container.append(label, arrow, native, custom);
+    this.#field = new Field({ input: this.#native, label});
+    this.#field.node.insertBefore(arrow, this.#native);
+    this.#native.after(this.#custom);
 
-    CountrySelect.#attachCustomListeners(container);
+    this.#renderOptions = renderOptions;
 
-    return container;
+    this.#attachEvents();
   }
 
-  static #createNativeSelect() {
-    const select = Object.assign(document.createElement('select'), {
-      id: 'country-native',
-      name: 'country',
-      autocomplete: 'country',
-    });
+  static #createNativeSelect(id, name, attrs) {
+    const select = document.createElement('select');
+    select.id = `${id}-native`;
+    select.name = name;
+    
+    for (const [key, value] of Object.entries(attrs || {})) {
+      select.setAttribute(key, value);
+    }
 
     const placeholder = Object.assign(document.createElement('option'), {
       value: '',
@@ -44,20 +58,12 @@ export default class CountrySelect {
       selected: true,
       hidden: true
     });
-    select.append(placeholder);
-
-    COUNTRIES.forEach(({ code, name}) => {
-      const option = Object.assign(document.createElement('option'), {
-        value: code,
-        textContent: name
-      });
-      select.append(option);
-    });
+    select.appendChild(placeholder);
 
     return select;
   }
 
-  static #createCustomSelect() {
+  static #createCustomSelect(id) {
     const select = document.createElement('div');
     select.className = 'custom-select';
 
@@ -66,179 +72,197 @@ export default class CountrySelect {
     trigger.type = 'button';
     trigger.setAttribute('aria-haspopup', 'listbox');
     trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-controls', 'country-listbox');
-    trigger.setAttribute('aria-labelledby', 'country-label');
+    trigger.setAttribute('aria-controls', `${id}-listbox`);
+    trigger.setAttribute('aria-labelledby', `${id}-label`);
 
-    const dropdown = CountrySelect.#createDropdown();
+    const dropdown = document.createElement('ul');
+    dropdown.id = `${id}-listbox`;
+    dropdown.className = 'custom-select__options';
+    dropdown.hidden = true;
+    dropdown.setAttribute('role', 'listbox');
 
     select.append(trigger, dropdown);
     return select;
   }
 
-  static #createDropdown() {
-    const list = document.createElement('ul');
-    list.id = 'country-listbox';
-    list.className = 'custom-select__options';
-    list.role = 'listbox';
-    list.hidden = true;
-
-    COUNTRIES.forEach(({ code, name }) => {
-      const item = document.createElement('li');
-      item.role = 'option';
-      item.setAttribute('tabindex', '-1');
-      item.dataset.value = code;
-
-      const img = Object.assign(document.createElement('img'), {
-        className: 'country-flag',
-        src: `/form/countries/flags/${code}.svg`,
-        alt: '',
-        loading: 'lazy',
-        ariaHidden: 'true'
-      });
-
-      const span = Object.assign(document.createElement('span'), {
-        className: 'country-name',
-        textContent: name
-      });
-
-      item.append(img, span);
-      list.append(item);
+  #attachEvents() {
+    this.#custom.addEventListener('focusout', e => {
+      if (!e.relatedTarget || !this.#custom.contains(e.relatedTarget))
+        this.#closeDropdown();
     });
 
-    return list;
-  }
+    this.#trigger.addEventListener('click', () => this.#toggleDropdown());
 
-  static #attachCustomListeners(container) {
-    const custom = container.querySelector('.custom-select');
-    const trigger = custom.querySelector('.custom-select__trigger');
-    const dropdown = custom.querySelector('.custom-select__options');
-    const native = container.querySelector('#country-native');
-
-    const open = () => {
-      dropdown.hidden = false;
-      trigger.setAttribute('aria-expanded', 'true');
-
-      const selected = dropdown.querySelector('[aria-selected="true"]');
-      const first = dropdown.querySelector('li');
-      (selected || first)?.focus();
-    };
-
-    const close = () => {
-      dropdown.hidden = true;
-      trigger.setAttribute('aria-expanded', 'false');
-    };
-
-    const select = option => {
-      const selected = dropdown.querySelector('[aria-selected="true"]');
-
-      if (option && option !== selected) {
-        selected?.setAttribute('aria-selected', 'false');
-        selected?.classList.remove('selected');
-        option.setAttribute('aria-selected', 'true');
-        option.classList.add('selected');
-
-        native.value = option.dataset.value;
-
-        const clone = option.cloneNode(true);
-        trigger.innerHTML = '';
-        trigger.append(...clone.children);
-      }
-    };
-
-    let typeBuffer = '';
-    let typeBufferTimeout;
-
-    const resetTypeBuffer = () => {
-      typeBuffer = '';
-      clearTimeout(typeBufferTimeout);
-    }
-
-    const handleTypeahead = char => {
-      typeBuffer += char;
-
-      clearTimeout(typeBufferTimeout);
-      typeBufferTimeout = setTimeout(resetTypeBuffer, 400);
-
-      const options = [...dropdown.querySelectorAll('[role="option"]')];
-
-      const match = options.find(o => {
-        const name = o.querySelector('.country-name').textContent;
-        return name.toLowerCase().startsWith(typeBuffer);
-      });
-
-      if (match) {
-        match.focus();
-        match.scrollIntoView({ block: 'center' });
-      }
-    }
-
-    custom.addEventListener('focusout', e => {
-      if (!e.relatedTarget || !custom.contains(e.relatedTarget))
-        close();
-    });
-
-    trigger.addEventListener('click', () => {
-      if (dropdown.hidden) open();
-      else close();
-    });
-
-    trigger.addEventListener('keydown', e => {
+    this.#trigger.addEventListener('keydown', e => {
       const openCodes = ['ArrowUp', 'ArrowDown', 'Enter', 'Space'];
-      if (!dropdown.hidden || !openCodes.includes(e.code)) return;
+      if (this.#open || !openCodes.includes(e.code)) return;
 
       e.preventDefault();
-      open();
+      this.#openDropdown();
     });
 
-    dropdown.addEventListener('click', e => {
+    this.#dropdown.addEventListener('click', e => {
       const option = e.target.closest('li[role="option"]');
-      select(option);
-      close();
+      if (!option) return;
+
+      this.#select(option.dataset.value);
     });
 
-    dropdown.addEventListener('keydown', e => {
+    this.#dropdown.addEventListener('keydown', e => {
       switch (e.key) {
         case 'Tab':
           if (e.shiftKey) {
             e.preventDefault();
-            close();
-            trigger.focus();
+            this.#closeDropdown();
+            this.#trigger.focus();
           }
           break;
-
         case 'Escape':
           e.preventDefault();
-          close();
-          trigger.focus();
+          this.#closeDropdown();
+          this.#trigger.focus();
           break;
-
         case 'ArrowDown':
           e.preventDefault();
-          const next = document.activeElement.nextElementSibling || dropdown.querySelector('[role="option"]');
+          const next = document.activeElement.nextElementSibling ||
+            this.#dropdown.querySelector('[role="option"]');
           next?.focus();
           next?.scrollIntoView({ block: 'center' });
           break;
-
         case 'ArrowUp':
           e.preventDefault();
-          const prev = document.activeElement.previousElementSibling || dropdown.querySelector('li:last-child');
+          const prev = document.activeElement.previousElementSibling ||
+            this.#dropdown.querySelector('li:last-child');
           prev?.focus();
           prev?.scrollIntoView({ block: 'center' });
           break;
-
         case 'Enter':
         case ' ':
           e.preventDefault();
-          select(document.activeElement);
-          close();
-          trigger.focus();
+          this.#select(document.activeElement.dataset.value);
+          this.#closeDropdown();
+          this.#trigger.focus();
           break;
       }
 
-      if (e.key.length === 1 && /^[a-z]$/i.test(e.key)) {
-        handleTypeahead(e.key.toLowerCase());
+      if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        this.#handleTypeahead(e.key.toLocaleLowerCase());
       }
     });
   }
 
+  #toggleDropdown() {
+    this.#open ? this.#closeDropdown(): this.#openDropdown();
+  }
+
+  #openDropdown() {
+    this.#open = true;
+
+    this.#dropdown.hidden = false;
+    this.#trigger.setAttribute('aria-expanded', 'true');
+
+    const first = this.#dropdown.querySelector('li');
+    (this.#selectedOption || first)?.focus();
+  }
+
+  #closeDropdown() {
+    this.#open = false;
+
+    this.#dropdown.hidden = true;
+    this.#trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  #select(value) {
+    this.#native.value = value;
+
+    this.#updateTrigger(value);
+    this.#highlightOption(value);
+
+    this.#closeDropdown()
+  }
+
+  #updateTrigger(value) {
+    const option = this.#optionsMap.get(value);
+    this.#trigger.innerHTML = option ? option.innerHTML : '';
+  }
+
+  #highlightOption(value) {
+    const newOption = this.#optionsMap.get(value);
+
+    if (newOption === this.#selectedOption) return;
+
+    if (this.#selectedOption) {
+      this.#selectedOption.classList.remove('selected');
+      this.#selectedOption.setAttribute('aria-selected', 'false');
+    }
+
+    if (newOption) {
+      newOption.classList.add('selected');
+      newOption.setAttribute('aria-selected', 'true');
+    }
+
+    this.#selectedOption = newOption;
+  }
+
+  #handleTypeahead(char) {
+    this.#typeBuffer += char;
+
+    clearTimeout(this.#typeBufferTimeout);
+    this.#typeBufferTimeout = setTimeout(() => {
+      this.#resetTypeBuffer();
+    }, 400);
+
+    const match = this.#optionsArray.find(o => {
+      const name = o.textContent.trim().toLowerCase();
+      return name.startsWith(this.#typeBuffer);
+    });
+
+    if (match) {
+      match.focus();
+      match.scrollIntoView({ block: 'center' });
+    }
+  }
+
+  #resetTypeBuffer() {
+    this.#typeBuffer = '';
+    clearTimeout(this.#typeBufferTimeout);
+  }
+
+  populate(options) {
+    this.#native.length = 1; // keep placeholder
+    this.#dropdown.innerHTML = '';
+
+    options.forEach(opt => {
+      const option = document.createElement('option');
+      option.value = opt.value;
+      option.textContent = opt.label;
+      this.#native.append(option);
+
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.setAttribute('tabindex', '-1');
+      li.dataset.value = opt.value;
+
+      if (this.#renderOptions) {
+        this.#renderOptions(li, opt);
+      } else {
+        li.textContent = opt.label;
+      }
+
+      this.#dropdown.append(li);
+    });
+
+    this.#optionsMap = new Map(
+      Array.from(
+        this.#dropdown.querySelectorAll('[role="option"]'),
+        o => [o.dataset.value, o]
+      )
+    );
+
+    this.#optionsArray = Array.from(this.#optionsMap.values());
+  }
+
+  get node() {
+    return this.#field.node;
+  }
 }
