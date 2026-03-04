@@ -1,139 +1,88 @@
-import icons from './icons.js';
-import { createIconButton } from './utility.js';
-import CountrySelect from './Select.js';
+import CountrySelect from './CountrySelect.js';
 import Input from './Input.js';
+import PasswordInput from './PasswordInput.js';
 
+export default class Form {
+  #form;
+  #fields = {};
 
-class Form {
+  constructor() {
+    this.#form = document.createElement('form');
 
-  static create() {
-    const form = document.createElement('form');
-
-    form.append(
-      Form.#createHeader(),
-      Form.#createAuthSection(),
-      Form.#createLocalizationSection(),
-      Form.#createSubmitBtn(),
+    this.#form.append(
+      this.#createHeader(),
+      this.#createAuthSection(),
+      this.#createLocalizationSection(),
+      this.#createSubmitButton()
     );
-
-    this.#attachValidators(form);
-
-    return form;
   }
 
-  static #createHeader() {
+  #createHeader() {
     const container = document.createElement('header');
 
     const header = document.createElement('h1');
     header.textContent = 'charge into tomorrow';
-    
+
     container.appendChild(header);
     return container;
   }
 
-  static #createPasswordField(id, labelName) {
-    const field = Input.create({
-      type: 'password', 
-      id, 
-      labelName,
-      attrs: {'required': '', 'autocomplete': 'new-password' }
-    });
-    
-    const input = field.querySelector('input');
-    input.classList.add('password-input');
+  #createAuthSection() {
+    const container = document.createElement('div');
+    container.classList.add('auth-section');
 
-    const button = createIconButton(icons.show, 'Show password');
-    button.classList.add('password-toggle');
-
-    button.addEventListener('click', () => {
-      if (input.type === 'password') {
-        input.type = 'text';
-        button.setAttribute('aria-label', 'Hide password');
-        button.innerHTML = icons.hide;
-      } else {
-        input.type = 'password';
-        button.setAttribute('aria-label', 'Show password');
-        button.innerHTML = icons.show;
-      }
+    this.#fields.email = new Input({
+      type: 'email',
+      labelName: 'Email',
+      attrs: { 'required': '', 'autocomplete': 'email' }
     });
 
-    field.appendChild(button);
-    return field;
-  }
+    this.#fields.password = new PasswordInput({ labelName: 'Password' });
 
-  static #createAuthSection() {
-    const auth = document.createElement('div');
-    auth.classList.add('auth-section');
-    
-    auth.append(
-      Input.create({ type: 'email', attrs: { 'required': '', 'autocomplete': 'email' } }),
-      Form.#createPasswordField(),
-      Form.#createPasswordField('confirm-password', 'Confirm password')
+    this.#fields.confirm = new PasswordInput({
+      id: 'confirm-password',
+      labelName: 'Confirm password'
+    });
+
+    container.append(
+      this.#fields.email.node,
+      this.#fields.password.node,
+      this.#fields.confirm.node
     );
 
-    return auth;
+    return container;
   }
 
-  static #createLocalizationSection() {
-    const localization = document.createElement('div');
-    localization.classList.add('localization-section');
+  #createLocalizationSection() {
+    const container = document.createElement('div');
+    container.classList.add('localization-section');
 
-    const country = CountrySelect.create({ required: true });
+    this.#fields.country = new CountrySelect();
 
-    const postal = Input.create({
-      type: 'text', 
-      id: 'postal', 
-      labelName: 'Postal Code',
-      attrs: { 'autocomplete': 'postal-code' }
+    this.#fields.postal = new Input({
+      type: 'text',
+      id: 'postal',
+      labelName: 'Postal code',
+      attrs: { autocomplete: 'postal-code' }
     });
 
-    localization.append(country, postal);
+    container.append(
+      this.#fields.country.node,
+      this.#fields.postal.node
+    );
 
-    return localization;
+    return container;
   }
 
-  static #createSubmitBtn() {
+  #createSubmitButton() {
     const button = document.createElement('button');
     button.type = 'submit';
     button.textContent = 'Submit';
 
-    button.addEventListener('click', (event) => {
-      event.preventDefault();
-      console.log('Form submitted');
-    });
-
     return button;
   }
 
-  static #attachValidators(form) {
-    const validate = (input, validator) => {
-      const errorElement = input.closest('.form-field').querySelector('.form-error');
-      let error = '';
-
-      if (input.hasAttribute('required') && input.value.trim() === '') {
-        error = 'Field required';
-      } else if (validator) {
-        error = validator(input) || '';
-      }
-
-      errorElement.textContent = error;
-      errorElement.hidden = !error;
-
-      if (error) input.setAttribute('aria-invalid', 'true');
-      else input.removeAttribute('aria-invalid');
-
-      input.dataset.dirty = error ? 'true': 'false';
-    }
-
-    const email = form.querySelector('#email');
-    email.addEventListener('blur', () => validate(email));
-    email.addEventListener('input', () => {
-      if (email.dataset.dirty === 'true') validate(email);
-    });
-
+  get node() {
+    return this.#form;
   }
-
 }
-
-
-export default Form.create();

@@ -1,3 +1,4 @@
-import form from "./form/form.js"
+import Form from "./form/form.js";
 
-document.body.appendChild(form);
+const form = new Form();
+document.body.appendChild(form.node);
