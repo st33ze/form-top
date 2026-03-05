@@ -3,8 +3,9 @@ import Field from "./Field.js";
 export default class Input {
   #field;
   #input;
+  #validators = [];
 
-  constructor({ type, id, labelName, attrs }) {
+  constructor({ type, id, labelName, attrs, validators }) {
     const input = document.createElement('input');
     input.type = type;
     input.id = id || type;
@@ -23,6 +24,23 @@ export default class Input {
 
     this.#field = new Field({ input, label });
     this.#input = input;
+    this.#validators = validators;
+  }
+
+  validate() {
+    for (const validator of this.#validators) {
+      const error = validator({ value: this.#input.value });
+
+      if (error) {
+        this.#field.error = error;
+        this.#input.ariaInvalid = 'true';
+        return false;
+      }
+    }
+
+    this.#field.error = '';
+    this.#input.ariaInvalid = null;
+    return true;
   }
 
   get input() {
