@@ -146,7 +146,7 @@ export default class Select {
       }
 
       if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        this.#handleTypeahead(e.key.toLocaleLowerCase());
+        this.#handleTypeahead(e.key.toLowerCase());
       }
     });
   }
@@ -213,7 +213,7 @@ export default class Select {
     }, 400);
 
     const match = this.#optionsArray.find(o => {
-      const name = o.textContent.trim().toLowerCase();
+      const name = o.dataset.search;
       return name.startsWith(this.#typeBuffer);
     });
 
@@ -248,6 +248,8 @@ export default class Select {
       } else {
         li.textContent = opt.label;
       }
+
+      li.dataset.search = li.textContent.trim().toLowerCase();
 
       this.#dropdown.append(li);
     });
