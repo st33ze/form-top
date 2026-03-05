@@ -7,9 +7,12 @@ export default class Field {
     this.#container.className = 'form-field';
 
     this.#error = document.createElement('p');
+    this.#error.id = `${input.id}-error`;
     this.#error.className = 'form-error';
     this.#error.hidden = true;
     this.#error.ariaLive = 'polite';
+
+    input.setAttribute('aria-describedby', this.#error.id);
 
     this.#container.append(label, input, this.#error);
   }
