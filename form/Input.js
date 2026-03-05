@@ -29,7 +29,7 @@ export default class Input {
 
   validate() {
     for (const validator of this.#validators) {
-      const error = validator({ value: this.#input.value });
+      const error = validator({ value: this.value });
 
       if (error) {
         this.#field.error = error;
@@ -41,6 +41,10 @@ export default class Input {
     this.#field.error = '';
     this.#input.ariaInvalid = null;
     return true;
+  }
+
+  get value() {
+    return this.#input.value;
   }
 
   get input() {
