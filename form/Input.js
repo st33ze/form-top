@@ -43,6 +43,10 @@ export default class Input {
     return true;
   }
 
+  isInvalid() {
+    return this.#input.ariaInvalid === 'true';
+  }
+
   get value() {
     return this.#input.value;
   }
