@@ -14,6 +14,11 @@ export default class Field {
     this.#container.append(label, input, this.#error);
   }
 
+  set error(text) {
+    this.#error.textContent = text;
+    this.#error.hidden = !text;
+  }
+
   get node() {
     return this.#container;
   }
