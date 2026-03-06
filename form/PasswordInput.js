@@ -7,12 +7,13 @@ export default class PasswordInput {
   #field;
   #button;
 
-  constructor({ id, labelName }) {
+  constructor({ id, labelName, validators }) {
     this.#field = new Input({
       type: 'password',
       id,
       labelName,
-      attrs: { required: '', autocomplete: 'new-password' }
+      attrs: { required: '', autocomplete: 'new-password' },
+      validators
     });
 
     this.#field.input.classList.add('password-input');
@@ -32,6 +33,10 @@ export default class PasswordInput {
     input.type = isPassword ? 'text': 'password';
     this.#button.setAttribute('aria-label', isPassword ? 'Hide password': 'Show password');
     this.#button.innerHTML = isPassword ? icons.hide: icons.show;
+  }
+
+  validate() {
+    this.#field.validate();
   }
 
   get node() {
