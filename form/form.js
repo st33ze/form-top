@@ -44,7 +44,11 @@ export default class Form {
 
     this.#fields.password = new PasswordInput({
       labelName: 'Password',
-      validators: [Validators.required(), Validators.noEdgeSpaces()]
+      validators: [
+        Validators.required(),
+        Validators.noEdgeSpaces(),
+        Validators.minLength(8)
+      ]
     });
 
     this.#fields.confirm = new PasswordInput({
