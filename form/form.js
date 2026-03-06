@@ -1,6 +1,7 @@
 import CountrySelect from './CountrySelect.js';
 import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
+import { requiredValidator, emailValidator } from './Validators.js';
 
 export default class Form {
   #form;
@@ -15,6 +16,8 @@ export default class Form {
       this.#createLocalizationSection(),
       this.#createSubmitButton()
     );
+
+    this.#attachValidators();
   }
 
   #createHeader() {
@@ -34,7 +37,8 @@ export default class Form {
     this.#fields.email = new Input({
       type: 'email',
       labelName: 'Email',
-      attrs: { 'required': '', 'autocomplete': 'email' }
+      attrs: { 'required': '', 'autocomplete': 'email' },
+      validators: [requiredValidator(), emailValidator()]
     });
 
     this.#fields.password = new PasswordInput({ labelName: 'Password' });
@@ -84,5 +88,13 @@ export default class Form {
 
   get node() {
     return this.#form;
+  }
+
+  #attachValidators() {
+    const email = this.#fields.email;
+    email.input.addEventListener('blur', () => email.validate());
+    email.input.addEventListener('input', () => {
+      if (email.isInvalid()) email.validate();
+    });
   }
 }
