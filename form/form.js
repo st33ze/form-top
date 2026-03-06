@@ -53,7 +53,13 @@ export default class Form {
 
     this.#fields.confirm = new PasswordInput({
       id: 'confirm-password',
-      labelName: 'Confirm password'
+      labelName: 'Confirm password',
+      validators: [
+        Validators.required(),
+        Validators.noEdgeSpaces(),
+        Validators.minLength(8),
+        Validators.valueMatch(this.#fields.password.input, 'Passwords don\'t match')
+      ]
     });
 
     container.append(
@@ -110,6 +116,12 @@ export default class Form {
     password.input.addEventListener('input', () => {
       if (password.isInvalid()) password.validate();
     });
+
+    const confirm = this.#fields.confirm;
+    confirm.input.addEventListener('blur', () => confirm.validate());
+    confirm.input.addEventListener('input', () => {
+      if (confirm.isInvalid()) confirm.validate();
+    })
   }
 
 }
