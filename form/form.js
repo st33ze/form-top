@@ -1,7 +1,7 @@
 import CountrySelect from './CountrySelect.js';
 import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
-import { requiredValidator, emailValidator } from './Validators.js';
+import * as Validators from './Validators.js';
 
 export default class Form {
 
@@ -39,12 +39,12 @@ export default class Form {
       type: 'email',
       labelName: 'Email',
       attrs: { 'required': '', 'autocomplete': 'email' },
-      validators: [requiredValidator(), emailValidator()]
+      validators: [Validators.required(), Validators.email()]
     });
 
     this.#fields.password = new PasswordInput({
       labelName: 'Password',
-      validators: [requiredValidator()]
+      validators: [Validators.required(), Validators.noEdgeSpaces()]
     });
 
     this.#fields.confirm = new PasswordInput({
