@@ -4,6 +4,7 @@ import PasswordInput from './PasswordInput.js';
 import { requiredValidator, emailValidator } from './Validators.js';
 
 export default class Form {
+
   #form;
   #fields = {};
 
@@ -41,7 +42,10 @@ export default class Form {
       validators: [requiredValidator(), emailValidator()]
     });
 
-    this.#fields.password = new PasswordInput({ labelName: 'Password' });
+    this.#fields.password = new PasswordInput({
+      labelName: 'Password',
+      validators: [requiredValidator()]
+    });
 
     this.#fields.confirm = new PasswordInput({
       id: 'confirm-password',
@@ -96,5 +100,12 @@ export default class Form {
     email.input.addEventListener('input', () => {
       if (email.isInvalid()) email.validate();
     });
+
+    const password = this.#fields.password;
+    password.input.addEventListener('blur', () => password.validate());
+    password.input.addEventListener('input', () => {
+      if (password.isInvalid()) password.validate();
+    });
   }
+
 }
