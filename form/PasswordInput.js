@@ -39,6 +39,10 @@ export default class PasswordInput {
     this.#field.validate();
   }
 
+  get input() {
+    return this.#field.input;
+  }
+
   get node() {
     return this.#field.node;
    }
