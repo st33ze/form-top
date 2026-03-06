@@ -12,7 +12,7 @@ export default class PasswordInput {
       type: 'password',
       id,
       labelName,
-      attrs: { required: '', autocomplete: 'new-password' },
+      attrs: { required: '', autocomplete: 'new-password', maxlength: '64' },
       validators
     });
 

@@ -38,7 +38,7 @@ export default class Form {
     this.#fields.email = new Input({
       type: 'email',
       labelName: 'Email',
-      attrs: { 'required': '', 'autocomplete': 'email' },
+      attrs: { required: '', autocomplete: 'email', maxlength: '254' },
       validators: [Validators.required(), Validators.email()]
     });
 
@@ -75,7 +75,7 @@ export default class Form {
       type: 'text',
       id: 'postal',
       labelName: 'Postal code',
-      attrs: { autocomplete: 'postal-code' }
+      attrs: { autocomplete: 'postal-code', maxlength: '15' }
     });
 
     container.append(
