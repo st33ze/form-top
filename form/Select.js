@@ -16,8 +16,9 @@ export default class Select {
   #typeBufferTimeout;
   
   #renderOptions;
+  #validators = [];
 
-  constructor({ id, name, labelName, attrs, renderOptions }) {
+  constructor({ id, name, labelName, attrs, renderOptions, validators }) {
     const label = document.createElement('label');
     label.id = `${id}-label`;
     label.htmlFor = `${id}-native`;
@@ -39,6 +40,7 @@ export default class Select {
     this.#native.after(this.#custom);
 
     this.#renderOptions = renderOptions;
+    this.#validators = validators;
 
     this.#attachEvents();
   }
