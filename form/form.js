@@ -122,6 +122,11 @@ export default class Form {
     confirm.input.addEventListener('input', () => {
       if (confirm.isInvalid()) confirm.validate();
     })
+    password.input.addEventListener('input', () => {
+      if (!confirm.value) return;
+
+      confirm.validate();
+    });
   }
 
 }
