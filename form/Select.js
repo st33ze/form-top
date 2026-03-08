@@ -266,6 +266,22 @@ export default class Select {
     this.#optionsArray = Array.from(this.#optionsMap.values());
   }
 
+  validate() {
+    for (const validator of this.#validators) {
+      const error = validator({ value: this.value });
+
+      if (error) {
+        this.#field.error = error;
+        this.#native.ariaInvalid = 'true';
+        return false;
+      }
+
+      this.#field.error = '';
+      this.#native.ariaInvalid = null;
+      return true;
+    }
+  }
+
   get value() {
     return this.#native.value;
   }
