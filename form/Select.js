@@ -266,6 +266,10 @@ export default class Select {
     this.#optionsArray = Array.from(this.#optionsMap.values());
   }
 
+  get value() {
+    return this.#native.value;
+  }
+
   get node() {
     return this.#field.node;
   }
