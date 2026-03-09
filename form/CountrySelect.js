@@ -4,13 +4,14 @@ import Select from "./Select.js";
 export default class CountrySelect {
   #select
 
-  constructor() {
+  constructor(validators) {
     this.#select = new Select({
       id: 'country',
       name: 'country',
       labelName: 'Country',
       attrs: { required: '', autocomplete: 'country'},
-      renderOptions: CountrySelect.#render
+      renderOptions: CountrySelect.#render,
+      validators
     });
 
     this.#select.populate(COUNTRIES.map(c => ({value: c.code, label: c.name})));
