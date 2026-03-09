@@ -32,6 +32,10 @@ export default class CountrySelect {
     li.append(img, span);
   }
 
+  validate() {
+    return this.#select.validate();
+  }
+
   get value() {
     return this.#select.value;
   }
