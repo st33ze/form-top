@@ -32,6 +32,10 @@ export default class CountrySelect {
     li.append(img, span);
   }
 
+  get value() {
+    return this.#select.value;
+  }
+
   get node() {
     return this.#select.node;
   }
