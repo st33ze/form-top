@@ -75,7 +75,9 @@ export default class Form {
     const container = document.createElement('div');
     container.classList.add('localization-section');
 
-    this.#fields.country = new CountrySelect();
+    this.#fields.country = new CountrySelect({
+      validators: [Validators.required()]
+    });
 
     this.#fields.postal = new Input({
       type: 'text',

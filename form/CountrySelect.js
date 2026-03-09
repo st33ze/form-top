@@ -4,7 +4,7 @@ import Select from "./Select.js";
 export default class CountrySelect {
   #select
 
-  constructor(validators) {
+  constructor({ validators }) {
     this.#select = new Select({
       id: 'country',
       name: 'country',
