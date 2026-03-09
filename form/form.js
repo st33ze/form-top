@@ -129,6 +129,11 @@ export default class Form {
 
       confirm.validate();
     });
+
+    const country = this.#fields.country;
+    country.node.addEventListener('focusout', e => {
+      if (!country.node.contains(e.relatedTarget)) country.validate();
+    });
   }
 
 }
