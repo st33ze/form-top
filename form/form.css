@@ -168,6 +168,13 @@ form {
   }
 }
 
+:where(.form-field:has(select[aria-invalid="true"])) {
+  select,
+  .custom-select__trigger { 
+    border-color: hsl(var(--clr-warning));
+  }
+}
+
 .custom-select__trigger {
   display: flex;
   align-items: center;
