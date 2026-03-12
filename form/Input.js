@@ -3,7 +3,7 @@ import Field from "./Field.js";
 export default class Input {
   #field;
   #input;
-  #validators = [];
+  #validators;
 
   constructor({ type, id, labelName, attrs, validators }) {
     const input = document.createElement('input');
@@ -24,7 +24,7 @@ export default class Input {
 
     this.#field = new Field({ input, label });
     this.#input = input;
-    this.#validators = validators;
+    this.#validators = validators || [];
   }
 
   validate() {
