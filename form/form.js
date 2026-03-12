@@ -102,10 +102,6 @@ export default class Form {
     return button;
   }
 
-  get node() {
-    return this.#form;
-  }
-
   #attachValidators() {
     const {email, password, confirm, country} = this.#fields;
 
@@ -125,6 +121,13 @@ export default class Form {
     country.node.addEventListener('focusout', e => {
       if (!country.node.contains(e.relatedTarget)) country.validate();
     });
+    country.input.addEventListener('change', () => {
+      country.validate();
+    });
+  }
+
+  get node() {
+    return this.#form;
   }
 
 }
