@@ -107,30 +107,21 @@ export default class Form {
   }
 
   #attachValidators() {
-    const email = this.#fields.email;
-    email.input.addEventListener('blur', () => email.validate());
-    email.input.addEventListener('input', () => {
-      if (email.isInvalid()) email.validate();
+    const {email, password, confirm, country} = this.#fields;
+
+    [email, password, confirm].forEach(field => {
+      field.input.addEventListener('blur', () => field.validate());
+      field.input.addEventListener('input', () => {
+        if (field.isInvalid()) field.validate();
+      });
     });
 
-    const password = this.#fields.password;
-    password.input.addEventListener('blur', () => password.validate());
-    password.input.addEventListener('input', () => {
-      if (password.isInvalid()) password.validate();
-    });
-
-    const confirm = this.#fields.confirm;
-    confirm.input.addEventListener('blur', () => confirm.validate());
-    confirm.input.addEventListener('input', () => {
-      if (confirm.isInvalid()) confirm.validate();
-    })
     password.input.addEventListener('input', () => {
       if (!confirm.value) return;
 
       confirm.validate();
     });
 
-    const country = this.#fields.country;
     country.node.addEventListener('focusout', e => {
       if (!country.node.contains(e.relatedTarget)) country.validate();
     });
