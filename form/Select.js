@@ -180,6 +180,8 @@ export default class Select {
     this.#updateTrigger(value);
     this.#highlightOption(value);
 
+    this.#native.dispatchEvent(new Event('change', { bubbles: true }));
+
     this.#closeDropdown()
   }
 
