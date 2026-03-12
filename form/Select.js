@@ -282,6 +282,10 @@ export default class Select {
     }
   }
 
+  get input() {
+    return this.#native;
+  }
+
   get value() {
     return this.#native.value;
   }
