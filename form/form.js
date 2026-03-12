@@ -10,6 +10,7 @@ export default class Form {
 
   constructor() {
     this.#form = document.createElement('form');
+    this.#form.setAttribute('novalidate', '');
 
     this.#form.append(
       this.#createHeader(),
