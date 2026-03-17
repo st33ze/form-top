@@ -20,6 +20,7 @@ export default class Form {
     );
 
     this.#attachValidators();
+    this.#attachSubmitHandler();
   }
 
   #createHeader() {
@@ -125,6 +126,27 @@ export default class Form {
     country.input.addEventListener('change', () => {
       country.validate();
     });
+  }
+
+  #attachSubmitHandler() {
+    this.#form.addEventListener('submit', e => {
+      e.preventDefault();
+      
+      const isValid = this.#validateForm();
+
+      if (!isValid) return;
+    });
+  }
+
+  #validateForm() {
+    let isValid = true;
+
+    for (const field of Object.values(this.#fields)) {
+      const valid = field.validate();
+      if (!valid) isValid = false;
+    }
+
+    return isValid;
   }
 
   get node() {
