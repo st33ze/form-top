@@ -36,7 +36,7 @@ export default class PasswordInput {
   }
 
   validate() {
-    this.#field.validate();
+    return this.#field.validate();
   }
 
   isInvalid() {
