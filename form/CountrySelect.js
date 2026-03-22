@@ -36,6 +36,10 @@ export default class CountrySelect {
     return this.#select.validate();
   }
 
+  focus() {
+    this.#select.focus();
+  }
+
   get input() {
     return this.#select.input;
   }

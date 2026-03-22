@@ -284,6 +284,11 @@ export default class Select {
     return true;
   }
 
+  focus() {
+    if (this.#trigger.offsetParent !== null) this.#trigger.focus();
+    else this.#native.focus();
+  }
+
   get input() {
     return this.#native;
   }

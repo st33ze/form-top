@@ -43,6 +43,10 @@ export default class PasswordInput {
     return this.#field.isInvalid();
   }
 
+  focus() {
+    this.#field.focus();
+  }
+
   get value() {
     return this.#field.value;
   }

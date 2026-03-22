@@ -47,6 +47,10 @@ export default class Input {
     return this.#input.ariaInvalid === 'true';
   }
 
+  focus() {
+    this.#input.focus();
+  }
+
   get value() {
     return this.#input.value;
   }

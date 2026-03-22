@@ -139,14 +139,20 @@ export default class Form {
   }
 
   #validateForm() {
-    let isValid = true;
+    let firstInvalid = null; 
 
     for (const field of Object.values(this.#fields)) {
       const valid = field.validate();
-      if (!valid) isValid = false;
+
+      if (!valid && !firstInvalid) firstInvalid = field;
     }
 
-    return isValid;
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return false;
+    }
+
+    return true;
   }
 
   get node() {
