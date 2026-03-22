@@ -277,11 +277,11 @@ export default class Select {
         this.#native.ariaInvalid = 'true';
         return false;
       }
-
-      this.#field.error = '';
-      this.#native.ariaInvalid = null;
-      return true;
     }
+
+    this.#field.error = '';
+    this.#native.ariaInvalid = null;
+    return true;
   }
 
   get input() {
