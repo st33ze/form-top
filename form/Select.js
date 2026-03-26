@@ -88,6 +88,8 @@ export default class Select {
   }
 
   #attachEvents() {
+    this.#native.addEventListener('change', () => this.#syncFromNative());
+
     this.#custom.addEventListener('focusout', e => {
       if (!e.relatedTarget || !this.#custom.contains(e.relatedTarget))
         this.#closeDropdown();
@@ -108,6 +110,8 @@ export default class Select {
       if (!option) return;
 
       this.#select(option.dataset.value);
+
+      this.#closeDropdown();
     });
 
     this.#dropdown.addEventListener('keydown', e => {
@@ -176,13 +180,14 @@ export default class Select {
 
   #select(value) {
     this.#native.value = value;
+    this.#native.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  #syncFromNative() {
+    const value = this.#native.value;
 
     this.#updateTrigger(value);
     this.#highlightOption(value);
-
-    this.#native.dispatchEvent(new Event('change', { bubbles: true }));
-
-    this.#closeDropdown()
   }
 
   #updateTrigger(value) {
