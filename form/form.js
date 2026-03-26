@@ -85,7 +85,8 @@ export default class Form {
       type: 'text',
       id: 'postal',
       labelName: 'Postal code',
-      attrs: { autocomplete: 'postal-code', maxlength: '15' }
+      attrs: { autocomplete: 'postal-code', maxlength: '12' },
+      validators: [Validators.postal()]
     });
 
     container.append(
@@ -105,9 +106,9 @@ export default class Form {
   }
 
   #attachValidators() {
-    const {email, password, confirm, country} = this.#fields;
+    const {email, password, confirm, country, postal} = this.#fields;
 
-    [email, password, confirm].forEach(field => {
+    [email, password, confirm, postal].forEach(field => {
       field.input.addEventListener('blur', () => field.validate());
       field.input.addEventListener('input', () => {
         if (field.isInvalid()) field.validate();

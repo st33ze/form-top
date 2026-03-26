@@ -16,3 +16,11 @@ export const valueMatch = (sourceField, error) =>
 
 export const email = () => ({ value }) => 
   /\S+@\S+\.\S+/.test(value) ? '' : 'Invalid email';
+
+export const postal = () => ({ value }) => {
+  const v = value?.trim();
+  if (!v) return '';
+
+  const valid = /^[a-zA-Z0-9\s-]{3,12}$/.test(v);
+  return valid ? '' : 'Invalid postal code';
+};
