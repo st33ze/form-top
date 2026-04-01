@@ -134,8 +134,12 @@ export default class Form {
       e.preventDefault();
       
       const isValid = this.#validateForm();
-
       if (!isValid) return;
+
+      const raw = this.#getFormData();
+      const payload = this.#formatData(raw);
+      console.log(payload);
+
     });
   }
 
@@ -154,6 +158,25 @@ export default class Form {
     }
 
     return true;
+  }
+
+  #getFormData() {
+    return {
+      email: this.#fields.email.value,
+      password: this.#fields.password.value,
+      country: this.#fields.country.value,
+      postal: this.#fields.postal.value
+    }
+  }
+
+  #formatData(raw) {
+    return {
+      email: raw.email.trim().toLowerCase(),
+      password: raw.password,
+      country: raw.country,
+      postal: raw.postal.trim().toUpperCase(),
+      createdAt: new Date().toISOString()
+    }
   }
 
   get node() {
