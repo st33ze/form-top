@@ -3,43 +3,16 @@ import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
 import * as Validators from './Validators.js';
 
-export default class Form {
+export default class FormFields {
 
-  #root;
-  #content;
-  #form;
+  #node;
   #fields = {};
 
   constructor() {
-    this.#root = document.createElement('div');
-    this.#root.classList.add('form-container');
+    this.#node = document.createElement('form');
+    this.#node.setAttribute('novalidate', '');
 
-    const header = this.#createHeader();
-    
-    this.#content = document.createElement('div');
-    this.#content.classList.add('form-content');
-
-    this.#root.append(header, this.#content);
-    
-    this.#createForm();
-    this.#showForm();
-  }
-
-  #createHeader() {
-    const container = document.createElement('header');
-
-    const header = document.createElement('h1');
-    header.textContent = 'charge into tomorrow';
-
-    container.appendChild(header);
-    return container;
-  }
-
-  #createForm() {
-    this.#form = document.createElement('form');
-    this.#form.setAttribute('novalidate', '');
-
-    this.#form.append(
+    this.#node.append(
       this.#createAuthSection(),
       this.#createLocalizationSection(),
       this.#createSubmitButton()
@@ -47,11 +20,6 @@ export default class Form {
 
     this.#attachValidators();
     this.#attachSubmitHandler();
-  }
-
-
-  #showForm() {
-    this.#content.replaceChildren(this.#form);
   }
 
   #createAuthSection() {
@@ -151,7 +119,7 @@ export default class Form {
   }
 
   #attachSubmitHandler() {
-    this.#form.addEventListener('submit', e => {
+    this.#node.addEventListener('submit', e => {
       e.preventDefault();
       
       const isValid = this.#validateForm();
@@ -201,7 +169,7 @@ export default class Form {
   }
 
   get node() {
-    return this.#root;
+    return this.#node;
   }
 
 }
