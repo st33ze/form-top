@@ -5,22 +5,24 @@ import * as Validators from './Validators.js';
 
 export default class Form {
 
+  #root;
+  #content;
   #form;
   #fields = {};
 
   constructor() {
-    this.#form = document.createElement('form');
-    this.#form.setAttribute('novalidate', '');
+    this.#root = document.createElement('div');
+    this.#root.classList.add('form-container');
 
-    this.#form.append(
-      this.#createHeader(),
-      this.#createAuthSection(),
-      this.#createLocalizationSection(),
-      this.#createSubmitButton()
-    );
+    const header = this.#createHeader();
+    
+    this.#content = document.createElement('div');
+    this.#content.classList.add('form-content');
 
-    this.#attachValidators();
-    this.#attachSubmitHandler();
+    this.#root.append(header, this.#content);
+    
+    this.#createForm();
+    this.#showForm();
   }
 
   #createHeader() {
@@ -31,6 +33,25 @@ export default class Form {
 
     container.appendChild(header);
     return container;
+  }
+
+  #createForm() {
+    this.#form = document.createElement('form');
+    this.#form.setAttribute('novalidate', '');
+
+    this.#form.append(
+      this.#createAuthSection(),
+      this.#createLocalizationSection(),
+      this.#createSubmitButton()
+    );
+
+    this.#attachValidators();
+    this.#attachSubmitHandler();
+  }
+
+
+  #showForm() {
+    this.#content.replaceChildren(this.#form);
   }
 
   #createAuthSection() {
@@ -180,7 +201,7 @@ export default class Form {
   }
 
   get node() {
-    return this.#form;
+    return this.#root;
   }
 
 }

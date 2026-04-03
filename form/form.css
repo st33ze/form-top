@@ -1,5 +1,4 @@
-form {
-  position: relative;
+.form-container {
   display: grid;
   gap: 3rem;
   width: min(100%, 1000px);
@@ -32,6 +31,13 @@ form {
       border-top-left-radius: 0.5rem;
     }
   }
+}
+
+form {
+  position: relative;
+  display: grid;
+  gap: 3rem;
+
 
   [class$="section"] {
     display: flex;
@@ -254,7 +260,7 @@ button[type="submit"] {
 }
 
 @media (min-width: 650px) {
-  form {
+  .form-container {
     header {
       background-image: url("car.avif");
       height: 250px;
@@ -267,10 +273,10 @@ button[type="submit"] {
 }
 
 @media (min-width: 800px) {
-  form {
+  .form-container {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
     padding-bottom: 0;
+    gap: 0;
     
     header {
       grid-row: 1 / 4;
