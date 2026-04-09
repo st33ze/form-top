@@ -1,4 +1,5 @@
 import FormFields from "./FormFields.js";
+import SuccessView from "./SuccessView.js";
 
 export default class Form {
   
@@ -6,6 +7,7 @@ export default class Form {
   #content
 
   #fields;
+  #successView;
 
   constructor() {
     this.#node = document.createElement('div');
@@ -20,8 +22,10 @@ export default class Form {
     );
 
     this.#fields = new FormFields();
+    this.#successView = new SuccessView();
 
-    this.#showForm();
+    // this.#showForm();
+    this.#showSuccessView();
   }
 
   static #createHeader() {
@@ -36,6 +40,10 @@ export default class Form {
 
   #showForm() {
     this.#content.replaceChildren(this.#fields.node);
+  }
+
+  #showSuccessView() {
+    this.#content.replaceChildren(this.#successView.node);
   }
 
   get node() {
