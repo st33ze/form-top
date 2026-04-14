@@ -3,6 +3,8 @@ import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
 import * as Validators from './Validators.js';
 
+import { fakeRequest } from './api.js';
+
 export default class FormView {
 
   #node;
@@ -129,18 +131,22 @@ export default class FormView {
     });
   }
 
-  #handleSubmit(e) {
+  async #handleSubmit(e) {
     e.preventDefault();
 
     if (!this.#isValid()) return;
 
     const raw = this.#getFormData();
     const payload = this.#formatData(raw);
-    console.log(payload);
 
     this.#setSubmitting(true);
 
-    this.#onSuccess?.();
+    try {
+      await fakeRequest(payload);
+      this.#onSuccess?.();
+    } finally {
+      this.#setSubmitting(false);
+    }
   }
 
   #isValid() {
