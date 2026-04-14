@@ -7,19 +7,23 @@ export default class FormFields {
 
   #node;
   #fields = {};
+  #submitBtn
 
   constructor() {
     this.#node = document.createElement('form');
     this.#node.setAttribute('novalidate', '');
 
+    this.#submitBtn = this.#createSubmitButton();
+
     this.#node.append(
       this.#createAuthSection(),
       this.#createLocalizationSection(),
-      this.#createSubmitButton()
+      this.#submitBtn
     );
 
     this.#attachValidators();
-    this.#attachSubmitHandler();
+
+    this.#node.addEventListener('submit', e => this.#handleSubmit(e));
   }
 
   #createAuthSection() {
@@ -89,8 +93,12 @@ export default class FormFields {
   #createSubmitButton() {
     const button = document.createElement('button');
     button.type = 'submit';
-    button.textContent = 'Submit';
 
+    const label = document.createElement('span');
+    label.classList.add('button__label');
+    label.textContent = 'Submit';
+
+    button.append(label);
     return button;
   }
 
@@ -118,21 +126,19 @@ export default class FormFields {
     });
   }
 
-  #attachSubmitHandler() {
-    this.#node.addEventListener('submit', e => {
-      e.preventDefault();
-      
-      const isValid = this.#validateForm();
-      if (!isValid) return;
+  #handleSubmit(e) {
+    e.preventDefault();
 
-      const raw = this.#getFormData();
-      const payload = this.#formatData(raw);
-      console.log(payload);
+    if (!this.#isValid()) return;
 
-    });
+    const raw = this.#getFormData();
+    const payload = this.#formatData(raw);
+    console.log(payload);
+
+    this.#setSubmitting(true);
   }
 
-  #validateForm() {
+  #isValid() {
     let firstInvalid = null; 
 
     for (const field of Object.values(this.#fields)) {
@@ -168,6 +174,12 @@ export default class FormFields {
     }
   }
 
+  #setSubmitting(submitting) {
+    this.#submitBtn.disabled = submitting;
+    this.#submitBtn.classList.toggle('data-loading', submitting);
+    this.#submitBtn.setAttribute('aria-busy', submitting);
+  }
+  
   get node() {
     return this.#node;
   }

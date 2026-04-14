@@ -1,4 +1,4 @@
-import FormFields from "./FormFields.js";
+import FormView from "./FormView.js";
 import SuccessView from "./SuccessView.js";
 
 export default class Form {
@@ -6,7 +6,7 @@ export default class Form {
   #node
   #content
 
-  #fields;
+  #formView;
   #successView;
 
   constructor() {
@@ -21,11 +21,10 @@ export default class Form {
       this.#content
     );
 
-    this.#fields = new FormFields();
+    this.#formView = new FormView();
     this.#successView = new SuccessView();
 
-    // this.#showForm();
-    this.#showSuccessView();
+    this.#showForm();
   }
 
   static #createHeader() {
@@ -39,7 +38,7 @@ export default class Form {
   }
 
   #showForm() {
-    this.#content.replaceChildren(this.#fields.node);
+    this.#content.replaceChildren(this.#formView.node);
   }
 
   #showSuccessView() {

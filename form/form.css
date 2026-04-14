@@ -256,6 +256,7 @@ svg {
 }
 
 button[type="submit"] {
+  position: relative;
   justify-self: center;
   width: 250px;
   padding: 8px 16px;
@@ -266,9 +267,12 @@ button[type="submit"] {
   border: 1px solid hsl(var(--clr-accent));
   border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0,1s ease;
+  transition: 
+    background-color 0.2s ease, 
+    box-shadow 0.2s ease, 
+    transform 0.1s ease;
 
-  &:hover,
+  &:not(:disabled):hover,
   &:focus {
     background-color: hsl(var(--clr-primary));
     color: hsl(var(--clr-subtext));
@@ -280,6 +284,54 @@ button[type="submit"] {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
     border-color: hsl(var(--clr-secondary));
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: hsl(var(--clr-primary));
+    color: hsl(var(--clr-subtext));
+    border-color: hsl(var(--clr-subtext));
+  }
+
+  &::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+
+    position: absolute;
+    inset: 0;
+    margin: auto;
+
+    opacity: 0;
+    transition: 
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  &.data-loading {
+    .button__label {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    &::after {
+      opacity: 1;
+      animation: spin 0.8s linear infinite;
+      transition-delay: 0.05s;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg), scale(0.8);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
   }
 }
 
