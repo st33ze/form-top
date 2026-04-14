@@ -3,13 +3,14 @@ import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
 import * as Validators from './Validators.js';
 
-export default class FormFields {
+export default class FormView {
 
   #node;
   #fields = {};
   #submitBtn
+  #onSuccess;
 
-  constructor() {
+  constructor({ onSuccess }) {
     this.#node = document.createElement('form');
     this.#node.setAttribute('novalidate', '');
 
@@ -24,6 +25,8 @@ export default class FormFields {
     this.#attachValidators();
 
     this.#node.addEventListener('submit', e => this.#handleSubmit(e));
+
+    this.#onSuccess = onSuccess;
   }
 
   #createAuthSection() {
@@ -136,6 +139,8 @@ export default class FormFields {
     console.log(payload);
 
     this.#setSubmitting(true);
+
+    this.#onSuccess?.();
   }
 
   #isValid() {

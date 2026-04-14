@@ -21,7 +21,7 @@ export default class Form {
       this.#content
     );
 
-    this.#formView = new FormView();
+    this.#formView = new FormView({ onSuccess: () => this.#showSuccessView() });
     this.#successView = new SuccessView();
 
     this.#showForm();
