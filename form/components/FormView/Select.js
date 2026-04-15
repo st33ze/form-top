@@ -1,5 +1,5 @@
 import Field from "./Field.js";
-import icons from "./icons.js";
+import icons from "../../assets/icons.js";
 
 export default class Select {
   #field;

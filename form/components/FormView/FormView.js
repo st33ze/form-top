@@ -1,9 +1,9 @@
 import CountrySelect from './CountrySelect.js';
 import Input from './Input.js';
 import PasswordInput from './PasswordInput.js';
-import * as Validators from './Validators.js';
+import * as Validators from '../../Validators.js';
 
-import { fakeRequest } from './api.js';
+import { fakeRequest } from '../../api.js';
 
 export default class FormView {
 

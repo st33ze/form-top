@@ -1,5 +1,5 @@
-import FormView from "./FormView.js";
-import SuccessView from "./SuccessView.js";
+import FormView from "./components/FormView/FormView.js";
+import SuccessView from "./components/SuccessView.js";
 
 export default class Form {
   

@@ -11,7 +11,7 @@
     align-items: end;
     justify-content: end;
     height: 200px;
-    background-image: url("carSmall.avif");
+    background-image: url("./assets/carSmall.avif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -338,7 +338,7 @@ button[type="submit"] {
 @media (min-width: 650px) {
   .form-container {
     header {
-      background-image: url("car.avif");
+      background-image: url("./assets/car.avif");
       height: 250px;
 
       h1 {

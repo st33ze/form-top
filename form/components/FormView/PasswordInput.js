@@ -1,6 +1,6 @@
-import icons from "./icons.js";
+import icons from "../../assets/icons.js";
 import Input from "./Input.js";
-import { createIconButton } from "./utility.js";
+import { createIconButton } from "../../utility.js";
 
 export default class PasswordInput {
 
