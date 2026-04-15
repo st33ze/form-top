@@ -20,7 +20,7 @@ export default class CountrySelect {
   static #render(li, {value, label}) {
     const img = document.createElement('img');
     img.className = 'country-flag';
-    img.src = `/form/assets/countries/flags/${value}.svg`;
+    img.src = `form/assets/countries/flags/${value}.svg`;
     img.alt = '';
     img.loading = 'lazy';
     img.setAttribute('aria-hidden', 'true');
