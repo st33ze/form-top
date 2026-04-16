@@ -2,6 +2,8 @@
 
 Modern responsive form interface built with Vanilla JavaScript, semantic HTML, and custom CSS. Built with modular architecture, custom UI components, validation logic, and polished user experience states.
 
+[Open Live Demo](https://st33ze.github.io/form-top/)
+
 ## Features
 
 - Responsive mobile / desktop layout
